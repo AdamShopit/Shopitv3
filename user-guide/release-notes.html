@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="HandheldFriendly" content="true" />
+	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>Shopit Developer Docs</title>
+	<link href="styles.css" rel="stylesheet" type="text/css" media="all" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<div id="wrapper">
+
+		<nav class="desktop">
+			<dl>
+			<dt> </dt>
+			</dl>
+		</nav>
+
+		<div id="contentWrapper">
+			<div id="content">
+			
+				<h1>Shopit Release Notes</h1>
+
+				<article>
+					<h2><span>3.2.5</span></h2>
+					
+					<ul>
+						<li>Fixed bug with variation selector.</li>
+						<li>Fixed import tool from stripping html tags from product description and excerpt [#40].</li>
+						<li>Added webpage caching to conversion rate percentage ajax call on inventory list view.</li>
+						<li>Bug fix to custom fields not saving correctly when db entry does not exist.</li>
+						<li>Updated Barclaycard ePDQ response so it accepts POST as well as GET method.</li>
+					</ul>
+				</article>
+				
+				<article>
+					<h2><span>3.2.4</span></h2>
+					
+					<ul>
+						<li>Bug fix to manage_redirection() function not picking up the trailing slash.</li>
+						<li>Added canonical template tags for preferred page and related mobile page.</li>
+						<li>Prevent XSS injection on search.</li>
+						<li>Various SEO improvements.</li>
+						<li>Bug fix to orders export.</li>
+						<li>Improvements to database indexes.</li>
+						<li>Optimised product count query on filters for significant performance boost.</li>
+					</ul>
+				</article>
+
+				<article>
+					<h2><span>3.2.3</span></h2>
+					
+					<ul>
+						<li>Added product name reference to page title on edit item/variation pages.</li>
+						<li>Updated payment options core library function to enable additional gateways to be plugged in per website.</li>
+						<li>Updated variation selector and variant attributes management.</li>
+					</ul>
+				</article>
+				
+				<article>
+					<h2><span>3.2.2</span></h2>
+					
+					<ul>
+						<li>Revoked and replaced with 3.2.3.</li>
+					</ul>
+				</article>
+
+				<article>
+					<h2><span>3.2.1</span></h2>
+					
+					<ul>
+						<li>Bug fix to order filter where forward-slashes and ampersands break search.</li>
+						<li>Disabled the custom fields SQL query from product category type pages due to slow database performance.</li>
+						<li>Bug fix to dashboard monthly sales chart stats.</li>
+						<li>Added result limit to products web service.</li>
+						<li>Supports PHP 5.3.29 and later.</li>
+						<li>Moved basket summary function to core library.</li>
+						<li>New getBrands() core library function added.</li>
+						<li>Orders multi-tick option now remembers which items where checked prior to processing.</li>
+						<li>Bug fix to payment confirmation page.</li>
+					</ul>
+				</article>
+
+				<article>
+					<h2><span>3.2</span></h2>
+					
+					<h3>New Features</h3>
+					
+					<ul>
+						<li><code>Admin Bar added to store front.</code></li>
+						<li><code>Editable snippets via the store front.</code></li>
+						<li><code>Custom shortcuts added to admin menu.</code></li>
+						<li>Snippet widgets introduced to display dynamic content (e.g. blog posts).</li>
+						<li>Mark as "Printed" icon added to orders list in admin.</li>
+					</ul>
+					
+					<h3>Improvements</h3>
+					
+					<ul>
+						<li>Product code now searchable in store front.</li>
+						<li>Search performance improvements.</li>
+						<li>Improvements to the admin order builder.</li>
+						<li>Better handling/configuration of SSL basket and checkout pages.</li>
+						<li>Grouped orders by day/date on orders list and super search results.</li>
+						<li>Cross-sell groups added as core.</li>
+						<li>Packing notes now open in the same browser window.</li>
+					</ul>
+					
+					<h3>Misc Updates &amp; Bug Fixes</h3>
+					
+					<ul>
+						<li>Added parser library to admin for use with packing note templates.</li>
+						<li>Fixed the billing/delivery country dropdown to display only the chosen countries (in admin).</li>
+						<li>Bug fix to shipping/tax values not being submitted to PayPal.</li>
+						<li>Added blog URL config setting.</li>
+						<li>Enabled a collection image to be applied to collections (like categories).</li>
+						<li>Collection ID and collection group template tags added.</li>
+						<li>Bug fix to multi-tick options on inventory list (admin).</li>
+						<li>Added variant ID column to inventory export.</li>
+						<li>Bug fix to order builder when volume discount module is installed.</li>
+						<li>Fixed pages list in admin.</li>
+						<li>Fixed the lightbox gallery on product page.</li>
+						<li>Added get_custom_field core library function.</li>
+						<li>Mapped customers account_id to order builder lookup.</li>
+						<li>Added 'Sync Orders' option to edit customer account page.</li>
+						<li>Created new payment_options() core library function.</li>
+						<li>Update order date as order progressing through statuses (via payment gateway).</li>
+						<li>Changed uri protocol to AUTO.</li>
+						<li>Deprecated function basket_url().</li>
+						<li>SSL redirect hook added.</li>
+						<li>Removed switch_to_ssl() and template_directory() functions.</li>
+						<li>Collection list in the admin now sortable.</li>
+					</ul>
+				</article>
+
+				<article>
+				
+					<h2><span>3.1.10</span></h2>
+					<ul>
+						<li>Category menu html updated - includes bug fix to third-tier menu.</li>
+						<li>Dynamic categories function added to core.</li>
+						<li>Added mybasket core function which provides a detailed view of the basket summary.</li>
+						<li>Protected extremely large quantities being posted to the basket.</li>
+						<li>Fixed the product meta custom tag from outputting '0'.</li>
+						<li>Increase the admin's memory limit.</li>
+						<li>Added developer version of inventory export.</li>
+						<li><code>Improvements to cross-sells in admin which now include variants to be selected.</code></li>
+						<li>Added cross-sells core library function.</li>
+						<li>Updated PayPal checkout to include item information and to enable multiple sites with the same PayPal account.</li>
+						<li><code>Customisable order notes added.</code></li>
+						<li>Bug fix to inventory multi-select processing where applying coupons were causing database error.</li>
+						<li>Added option to apply coupons to all products in the inventory (and revoke them).</li>
+						<li>Added coupon product count to coupons page in admin.</li>
+						<li>Fixed multi-tick option in jquery.</li>
+						<li>Web services added.</li>
+						<li>Updated static page template to exclude frame templates loading.</li>
+						<li>Bug fix to store search returning products that are within a disabled category(s).</li>
+						<li>Prevented products from being purchase-able if they are within a disabled category(s).</li>
+						<li>Various other small bug fixes and improvements.</li>
+					</ul>
+
+				</article>
+
+				<article>
+				
+					<h2><span>3.1.9</span></h2>
+					<ul>
+						<li>Bug fix to "editor" custom field types where autop fails.</li>
+						<li>Added global {shopit:myaccount:logged_in} template tag.</li>
+						<li>Updates to product image and gallery html.</li>
+						<li>Bug fix to product meta custom field producing '0' when item is duplicated.</li>
+						<li>Bug fix to get_collection_items manual db call.</li>
+						<li>Fixed error when no custom fields exist.</li>
+						<li>Added profiler setting to admin for developer use.</li>
+						<li><code>Added Amazon Web Services order syncing library/module.</code></li>
+						<li>Speeded up database query used on homepage.</li>
+						<li>Added registration page/template to My Account module - optional depending on website.</li>
+						<li>Enabled custom fields to be applied to variants and displayed on the store's product pages through template tags.</li>
+						<li>Variant attributes added.</li>
+						<li>Core language file added for developers use.</li>
+						<li>Deprecated existing collection list code and replaced with new core functions.</li>
+						<li><code>Convert variant to single item option added to inventory list.</code></li>
+						<li><code>Drag and drop variations between variation sets on the admin inventory list.</code></li>
+						<li>Ajaxed the product conversion rate percentages on the inventory list to improve page load times.</li>
+						<li>Improved inventory list layout.</li>
+						<li>Database optimisation and improved page loading of the admin inventory list.</li>
+					</ul>
+					
+					<p>- Requires update script to be run.</p>
+
+				</article>
+				
+				<article>
+				
+					<h2><span id="3.1.8">3.1.8</span></h2>
+					<ul>
+						<li>Optimised code to speed&nbsp;up core system and database queries.</li>
+						<li>Added new {product_price_range} and {product_price_range_exvat} template tags.</li>
+						<li>Fixed bug where deleted filter caused 500 server error (via search engine index url).</li>
+						<li>Made custom field template tags optional -&nbsp;controlled via the admin.</li>
+					</ul>
+
+					<p>- Requires update script to be run.</p>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.7">3.1.7</span>
+											</h2>
+					<h3 id="3.1.7-updates&amp;BugFixes">Updates &amp; Bug Fixes</h3>
+
+<ul>
+	<li>Added Worldpay&nbsp;callback url to configuration allowing multiple websites to connect to the same install.</li>
+	<li>New image tags added.</li>
+	<li>Mobile detection libraries and settings added.</li>
+	<li>Updated core library get_categories function to include the default product image.</li>
+	<li>Pricing per sales channel added (update to locations module).</li>
+	<li>Added 'site' column to orders lists throughout the admin.</li>
+	<li>Volume discounts module integrated.</li>
+	<li>Added system profiler developer tool option.</li>
+	<li>Various bug fixes and improvements.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.6">3.1.6</span>
+											</h2>
+					<h3 id="3.1.6-newFeatures&amp;Enhancements">New Features &amp; Enhancements</h3>
+
+<ul>
+	<li>Coupon code usage limit added e.g. single use or multi-use.</li>
+	<li>Improved orders filter to enable searching by customer name, order number or coupon code. Also affects orders CSV export.</li>
+	<li><code>Integrated photo editor from Aviary.com into Admin</code> — available in edit item and item's photo gallery.</li>
+	<li><code>Product reporting via inventory list</code> — includes customer CSV export.</li>
+	<li>New stats panel added to dashboard.</li>
+	<li>Added gravatars.</li>
+	<li><code>User permissions added to admin</code> — Dashboards will be&nbsp;reset when update is installed.</li>
+	<li>Admin&nbsp;access log added.</li>
+</ul>
+
+<h3 id="3.1.6-generalUpdates">General Updates</h3>
+
+<ul>
+	<li>New Postcodesoftware.net library added.</li>
+	<li>Added page url links to admin pages list.</li>
+	<li>New plugin controller added.</li>
+	<li>Admin UI tweaks and improvements.</li>
+	<li>Added custom meta/head tag field to categories, products, collections and pages.</li>
+	<li>Replaced lightbox and improved product gallery feature on store&nbsp;product page.</li>
+</ul>
+
+<h3 id="3.1.6-bugFixes">Bug Fixes</h3>
+
+<ul>
+	<li>Prevent product images from being deleted from the server to protect references between multiple or duplicated products.</li>
+</ul>
+
+<p>- Requires update script to be run.</p>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.5">3.1.5</span>
+											</h2>
+					<h3 id="3.1.5-newFeatures&amp;Enhancements">New Features &amp; Enhancements</h3>
+
+<ul>
+	<li>Google Shopping feeds created for each location/channel.</li>
+	<li><code>Coupon module update to enable/disable coupons per product (bulk processing option added too).</code></li>
+	<li>Added "duplicate item" option to inventory list.</li>
+	<li>Added "duplicate variation" option to inventory list.</li>
+	<li>Added bulk delete items process to inventory list.</li>
+</ul>
+
+<h3 id="3.1.5-generalUpdates">General Updates</h3>
+
+<ul>
+	<li>Added {store:address} short tag.</li>
+	<li>Improved breadcrumb trail and added new template tag.</li>
+	<li>Parser library upgrade.</li>
+	<li>Removed the "third categories" library.</li>
+	<li>Changed the dates in the admin to display months in short form i.e. "Jan".</li>
+	<li>Added phpinfo to admin (for developers only).</li>
+	<li>Auto-define environment added (production or development).</li>
+	<li>HTML/CSS tweaks to checkout form validation.</li>
+	<li>Database update to speed category&nbsp;filters up.</li>
+	<li>Added page&nbsp;type short tag.</li>
+</ul>
+
+<h3 id="3.1.5-bugFixes">Bug Fixes</h3>
+
+<ul>
+	<li>Last month sales total on dashboard widget and sales summary report corrected.</li>
+	<li>Date bug fix to dashboard/reports concerning "last week" sales totals.</li>
+	<li>Fixed order&nbsp;filter not displaying&nbsp;refunds/refund references.</li>
+	<li>Fixed the 'Add Country' option&nbsp;in shipping rules admin section.</li>
+	<li>Set the default country in basket when the My Account module is not installed.</li>
+	<li>Cleaned up the meta description when snippet HTML&nbsp;appears&nbsp;in the category/page/product description.</li>
+	<li>Corrected the filters product count&nbsp;when using the site search.</li>
+	<li>Fixed the error on inventory CSV export when category/collections filter&nbsp;is used.</li>
+	<li>Fixed an extremely rare occasion where cookie loses connection on basket summary widget.</li>
+	<li>Fixed the&nbsp;order of multiple category rules by setting&nbsp;shipping price to descending.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.4">3.1.4</span>
+											</h2>
+					<h3 id="3.1.4-updates&amp;BugFixes">Updates &amp; Bug Fixes</h3>
+
+<ul>
+	<li>Added product custom fields to home, category, search results, collections, brands and tag templates.</li>
+	<li>Admin UI updates.</li>
+	<li>Auto-populate the snippet/custom field tag based on the title.</li>
+	<li>Bug fix to sales summary - not checking date times when working out calculations for this/last week totals.</li>
+	<li>Added config setting to define the dimensions for the product gallery thumbnail. Default's to 50.</li>
+	<li>Added an optional checkout template in case the page needs to be different.</li>
+	<li>Added import library.</li>
+	<li>Included&nbsp;product description and product tags in store search.</li>
+	<li>Prevented searches with less than three&nbsp;characters from being processed.</li>
+	<li>Improved the My Account login redirects to make them more flexible.</li>
+	<li>Improved product gallery lightbox.</li>
+	<li><code>Hide "Unprocessed" orders on the "this week's activity" page in the <br>admin by default. Remain&nbsp;visible on the "All orders" screen.</code></li>
+	<li>Bug fix to&nbsp;manually created orders in the activity stream appearing with a paid value of £0.00.</li>
+	<li>Fixed inventory and super search to handle invalid characters (such as slashes and quotes) better.</li>
+	<li>Added "new update installed" notification to floating bar.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.3">3.1.3</span>
+											</h2>
+					<h3 id="3.1.3-updates&amp;BugFixes">Updates &amp; Bug Fixes</h3>
+
+<ul>
+	<li>Basket updates for more design flexibility.</li>
+	<li>Upgraded contact form helper function to include checkboxes and radio buttons.</li>
+	<li>Dashboard sales chart bug fix.</li>
+	<li>General improvements across store and admin.</li>
+	<li>Basket encryption bug fix <code>(#515)</code>.</li>
+	<li>Added cache prevention to ajax calls.</li>
+	<li>Bug fix on edit order status change.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.2">3.1.2</span>
+											</h2>
+					<h3 id="3.1.2-updates">Updates</h3>
+
+<ul>
+	<li><code>Added "force_99p" price setting to store configuration.</code></li>
+	<li>Added the new "Today's Activity" realtime widget.</li>
+	<li>Dashboard UI updates.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1.1">3.1.1</span>
+											</h2>
+					<h3 id="3.1.1-bugFixes&amp; updates">Bug Fixes &amp;&nbsp;Updates</h3>
+
+<ul>
+	<li><code>Barclaycard payment gateway integrated.</code></li>
+	<li>Super search fix to include collections list options.</li>
+	<li>Filter module bug fixes.</li>
+	<li>Allow stock levels to drop below 0 (into negative values).</li>
+	<li>Bug fix to payment process where existing order with the same session_id&nbsp;was being overwritten with the new order.</li>
+	<li>Parser update.</li>
+	<li>Session cookie updates.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.1">3.1</span>
+											</h2>
+					<h3 id="3.1-updates">Updates</h3>
+
+<ul>
+	<li><code>Upgraded framework from CI1.7.2&nbsp;to 2.1.4.</code></li>
+	<li>Template tag enhancements.</li>
+	<li>Added quick "Go to..." option to inventory dropdown in the admin.</li>
+</ul>
+
+<h3 id="3.1-bugFixes">Bug Fixes</h3>
+
+<ul>
+	<li>Bug fix to product option order on store front and admin.</li>
+</ul>
+
+				</article>
+				
+				<article>
+				
+					<h2>
+						<span id="3.0">3.0</span>
+											</h2>
+					<h3 id="3.0-newFeatures&amp;Enhancements">New Features &amp; Enhancements</h3>
+
+<ul>
+	<li>Enable&nbsp;clients to login to admin using their email address.</li>
+	<li>Snippet groups added.</li>
+	<li>Added snippets notes field.</li>
+	<li><code>Stock locations and sales channels module added.</code></li>
+	<li>Improved template tags.</li>
+	<li>Updated configuration settings.</li>
+	<li>Price rounding (to .99p).</li>
+	<li>Spam prevention added to contact forms.</li>
+	<li>Improved image gallery lightbox on product pages.</li>
+	<li>Upgraded fancybox, markitup editor, qtip and jQuery plugins.</li>
+	<li>Order refunds (notes) added to admin orders section.</li>
+	<li>Admin UI improvements.</li>
+	<li>New file browser added.</li>
+	<li>PayPal PDT integrated for Google Ecommerce tracking code.</li>
+	<li><code>Parent/child (variations) and single item options&nbsp;consolidated.</code></li>
+	<li>Orders summary page replaced with "This week's activity".</li>
+	<li>Coupon module updates.</li>
+	<li>Panic Status Board integration.</li>
+	<li>Customer accounts section added to admin.</li>
+	<li>Added newsletter signup tick box to basket which connects to mailchimp. Also added the same option to the user accounts login (also subscribes to/from mailchimp automatically).</li>
+	<li>Added optional cron job for google XML feeds.</li>
+	<li>WorldPay template improvements.</li>
+	<li>Incremental order numbers added.</li>
+	<li>Added the "User" dropdown to the admin which&nbsp;contains&nbsp;the floating bar options.</li>
+	<li>Added the configuration setting to switch the store to single, variations or both.</li>
+	<li>Added category shipping rule to store's basket.</li>
+	<li>Added category shipping rule to the order builder.</li>
+	<li>Added coupon exclude option to admin/basket.</li>
+	<li>Better order inventory handling.</li>
+	<li>API keys integration.</li>
+	<li>New sales chart added to dashboard.</li>
+	<li>Added quick menu to inventory list.</li>
+	<li>Added bulk actions drop down (quick menu) to orders list.</li>
+	<li><code>Custom order statuses and order notifications added.</code></li>
+	<li><code>Drag and&nbsp;drop prioritisation module added.</code></li>
+	<li>"Super search" added to admin.</li>
+	<li>Added homepage template.</li>
+	<li>Better product sort filters on store front.</li>
+	<li>Updated My Account module.</li>
+	<li>Improved product tags in admin.</li>
+	<li><code>Layered navigation/filters module added.</code></li>
+</ul>
+
+<h3 id="3.0-removed">Removed</h3>
+
+<ul>
+	<li>Removed tellafriend module.</li>
+	<li>Removed blog posts feature.</li>
+	<li>'Popular products' list removed.</li>
+	<li>Random products displaying on empty categories.</li>
+</ul>
+
+<h3 id="3.0-bugFixes">Bug Fixes</h3>
+
+<ul>
+	<li>Order notes now accept special characters.</li>
+	<li>Google shopping feed bug fixes.</li>
+	<li>Removed autocomplete from some fields in the basket/checkout.</li>
+	<li>Bug fix when latest products/collection on homepage is empty.</li>
+	<li>Streamline core code to make pages load quicker.</li>
+	<li>Fix to this week's activity orders display.</li>
+	<li>Bug fix on inventory list sorting.</li>
+	<li>Improved the display of product previews in the product lookup.</li>
+	<li>Basket cookie fix.</li>
+</ul>
+
+				</article>
+				
+
+			</div>
+		</div>
+		
+	</div>
+
+	<script>
+	$(document).ready(function(){
+	
+		//$('pre').addClass('prettyprint');
+	
+		//Create the table of contents - this is taken from chart.js
+		var $nav = $("nav dl");
+		
+		$("article").each(function(){
+		
+			var $type = $('nav').attr('class');
+		
+			var $el = $(this);
+			var $h2 = $el.find("h2 span");
+			var sectionTitle = $h2.html();
+			var articleId = camelCase($h2.html());
+			$h2.attr("id", articleId);
+			var $dt = $("<dt><a class=\"" + $type + "\" href=\"#" + camelCase(sectionTitle) + "\">" + sectionTitle + "</a></dt>");
+			
+			$dt.find("a.desktop").on("click",function(e){
+				e.preventDefault();
+				$('html,body').animate({scrollTop: $h2.offset().top},400);
+			});
+			
+			$nav.append($dt);
+			
+			var $subtitles = $el.find("h3");
+			
+			$subtitles.each(function(){
+				var $h3 = $(this);
+				var title = $h3.text();
+				var newID = articleId + "-" +camelCase(title);
+				$h3.attr("id", newID);
+				var $dd = $("<dd><a class=\"" + $type + "\" href=\"#" +newID + "\">" + title + "</a></dd>");
+				
+				$dd.find("a.desktop").on("click",function(e){
+					e.preventDefault();
+					$('html,body').animate({scrollTop: $h3.offset().top},400);
+				})
+				$nav.append($dd);
+				
+			});
+			
+			var $articles = $el.find("article");
+			
+		});
+		
+		//Hide or show the menu for mobile
+		$("nav.mobile").click(function(){
+			if ($(this).height() == 20) {
+				$(this).css('height', 'auto');
+			} else {
+				$(this).css('height', '20px');
+			}
+		});
+				
+		function camelCase(str){			
+			var splitString = str.split(" ");
+			
+			var returnedCamel = splitString[0].toLowerCase();
+			
+			for (var i=1; i<splitString.length; i++){
+				returnedCamel += splitString[i].charAt(0).toUpperCase() + splitString[i].substring(1).toLowerCase();
+			}
+			
+			return returnedCamel;
+			
+		}
+
+		//Function to show line numbers
+		(function() {
+		    var pre = document.getElementsByTagName('pre'),
+		        pl = pre.length;
+		    for (var i = 0; i < pl; i++) {
+		        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+		        var num = pre[i].innerHTML.split(/\n/).length;
+		        for (var j = 0; j < num; j++) {
+		            var line_num = pre[i].getElementsByTagName('span')[0];
+		            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+		        }
+		    }
+		})();
+			
+	});
+	</script>
+
+</body>
+</html>

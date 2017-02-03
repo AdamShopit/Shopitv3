@@ -1,0 +1,139 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	color: #666;
+	margin: 1%;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #004a80;
+	text-decoration: underline;
+}
+
+.light-grey {
+	color: #ccc;
+}
+
+h1 {
+	font-size: 21px;
+	color: black;
+	font-weight: 400;
+	padding: 7px 0 20px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+th {
+	color: black;
+	text-align: left;
+	text-transform: uppercase;
+	color: white;
+	font-weight: 500;
+	background-color: #333;
+	font-size: 11px;
+}
+
+th, td {
+	padding: 7px 4px;
+	vertical-align: middle;
+}
+
+tbody td {
+	border-top: 1px solid #ebebeb;
+}
+
+td .thumb {
+	width: 35px;
+	height: 35px;
+	display: inline-block;
+	border: 1px solid #ebebeb;
+	background-position: center center;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	margin-right: 5px;
+	background-color: white;
+}
+
+.thumb a {
+	display: block;
+	width: 35px;
+	height: 35px;
+}
+
+tr:nth-child(even) td {
+	background-color: #f9f9f9;
+}
+
+tbody tr.filtered {
+	display: none;
+}
+
+.formblock {
+	display: inline-block;
+	float: right;
+	vertical-align: middle;
+}
+
+input[type='text'] {
+	padding: 10px 8px;
+	font-size: 13px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: black;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.upload-form {
+	padding: 7px 8px 7px 8px;
+	font-size: 13px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: black;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	margin-right: 20px;
+	position: relative;
+}
+
+input[type="submit"] {
+	text-transform: uppercase;
+	color: #666;
+	font-size: 11px;
+	font-weight: bold;
+	background-color: #ebebeb;
+	border: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	padding: 4px 7px;
+}
+
+#notice {
+	background-color: #60c1e1;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-bottom: 20px;
+	width: auto;
+	color: #062e47;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 13px;
+	box-shadow: 0px 1px 0px #f5f2ed;
+	-moz-box-shadow: 0px 1px 0px #f5f2ed;
+	-webkit-box-shadow: 0px 1px 0px #f5f2ed;
+	text-shadow: 0px 1px #86d3ed;
+}

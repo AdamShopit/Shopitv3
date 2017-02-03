@@ -1,0 +1,133 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	-webkit-appearance: none;
+}
+
+body {
+	font-size: 62.5%;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	background-color: #fafafa;
+	color: #333;
+}
+
+#notice {
+	position: absolute;
+	top: 100px;
+	width: 100%;
+	text-align: center;
+	font-size: 1.5em;
+	color: #333;
+	font-weight: bold;
+}
+
+#frm-login {
+	margin: 145px auto 50px auto;
+	padding: 55px 0 0 0;
+	width: 357px;
+	text-align: center;
+	color: #2e2b28;
+	font-size: 1.3em;
+	display: block;
+}
+
+#login-logo {
+	width: 95px;
+	margin-bottom: 20px;
+}
+
+.textbox {
+	box-sizing: border-box;
+	width: 270px;
+	height: 35px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+	color: #333;
+	font-size: 1.1em;
+	padding: 10px 15px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #fff;
+	text-align: center;
+	transition: 0.2s linear border;
+	-webkit-transition: 0.2s linear border;
+	-moz-transition: 0.2s linear border;
+}
+
+.textbox:focus {
+	outline: 0;
+	border-color: #0072BC;
+}
+
+input.placeholder {
+    color: #ddd;
+}
+
+.textbox::-webkit-input-placeholder { /* WebKit browsers */
+    color: #ddd;
+}
+.textbox:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ddd;
+}
+.textbox::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ddd;
+}
+.textbox:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #ddd;
+}
+
+.ie8 .textbox,
+.ie7 .textbox {
+	line-height: 2.5em;
+	overflow: hidden;
+}
+
+.button {
+	box-sizing: border-box;
+	width: 270px;
+	padding: 10px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	font-size: 13px;
+	color: white;
+	margin: 0;
+	background-color: #0072BC;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	transition: 0.2s linear background;
+	-webkit-transition: 0.2s background;
+	-moz-transition: 0.2s background;
+}
+
+.button:focus {
+	outline: 0;
+	background: #333;
+}
+
+.button:active {
+	top: 1px;
+}
+
+#shopit {
+	text-align: center;
+    font-size: 1.1em;
+    margin-top: 20px;
+    line-height: 150%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 50px;
+    opacity: 0.9
+}
+
+
+#shopit a {
+	color: #333;
+	text-decoration: underline;
+}

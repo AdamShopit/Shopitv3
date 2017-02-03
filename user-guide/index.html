@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="HandheldFriendly" content="true" />
+	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>Shopit Developer Docs</title>
+	<link href="styles.css" rel="stylesheet" type="text/css" media="all" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<div id="wrapper">
+
+		<nav class="desktop">
+			<dl>
+				<dt>
+					
+				</dt>
+			</dl>
+		</nav>
+
+		<div id="contentWrapper">
+			<div id="content">
+			
+				<h1>Shopit Developer Documentation</h1>
+
+				<!-- Installation -->
+				<article>
+				
+					<h2><span>Installation</span></h2>
+						<p>A few things to get you started...</p>
+
+					<h3>Getting Started</h3>
+
+						<p>To install Shopit setup empty database and localhost host and then run <code>http://localhost.dev/install</code> where localhost.dev is the name of your test server/test domain. Follow the installation wizard.</p>
+
+					<h3>General Development Notes</h3>
+
+						<p>All editable templates are available in the <code>store/views</code> folder. Any images, stylesheets and script files should be saved to the another folder, e.g. <code>site</code> within the root of the site.</p>
+
+					<h3>Htaccess Files</h3>
+
+						<p>The recommended version of the htaccess file is as shown below. If you find that the homepage is displaying for every page, change the <code>$config['uri_protocol']</code> to <code>AUTO</code> in the <code>store/config/config.php</code> file.</p>
+
+
+<pre>
+&lt;IfModule mod_rewrite.c&gt;​​
+RewriteEngine On
+    RewriteBase /
+
+    # Redirect to www
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+    # Check to see if this is a call to image auto-resize function
+    RewriteCond %{REQUEST_URI} ^/image/*
+    RewriteRule . /index.php/$1 [L]
+
+    # Checks to see if the user is attempting to access a valid file,
+    # such as an image or css document, if this isn't true it sends the
+    # request to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php/$1 [L]
+&lt;/IfModule&gt;
+
+&lt;IfModule !mod_rewrite.c&gt;</ifmodule><ifmodule mod_rewrite.c="">
+    # If we don't have mod_rewrite installed, all 404's
+    # can be sent to index.php, and everything works as normal.
+    ErrorDocument 404 /index.php
+&lt;/IfModule&gt;</pre>
+
+
+						<p>If still no success, try another flavour!</p>
+					
+					<h3>CRON Jobs</h3>
+					
+						<p>Shopit has various cron jobs that can be setup to automate certain tasks.</p>
+					
+					<h4>Google XML Feeds</h4>
+					
+						<p>This one should be setup as a priority to run daily at 11pm. Use the following line in cpanel's cron jobs setting.</p>
+					
+						<pre>wget -q http://{www.domain.com}/admin/index.php/cron/googlise</pre>
+					
+				</article>
+
+			
+				<article>
+				
+					<h2><span>Core Templates</span></h2>
+						<p>Global templates define the general look and structure of the site and aim to maintain consistency throughout the stores design.</p>
+
+						<p>All global templates are located in <code>store/views/global</code>.</p>
+					
+					<h3>Global Templates</h3>
+						
+						<ul>
+							<li><strong>header.php</strong></li>
+							<li><strong>footer.php</strong></li>
+							<li><strong>sidebar.php</strong></li>
+							<li><strong>store.php</strong> - this template usually pulls all three of the above files together</li>
+							<li><strong>home.php</strong> - used for the layout of the homepage</li>
+							<li><strong>document.php</strong></li>
+							<li><strong>cart.php</strong> - this template is used only on basket and checkout pages</li>
+						</ul>
+					
+					<h3>Payment Gateway Templates</h3>
+					
+						<p>Templates for selected payment gateways can be found in <code>store/views/gateway</code>. These can all be designed up accordingly and will sit within the global 								<code>cart.php</code> template.</p>
+					
+					<h3>Customer Email Template</h3>
+					
+						<p>These templates are available to edit through the Shopit Admin under <code>Status Notifications</code>.</p>
+					
+					<h3>Template Overrides</h3>
+					
+						<p>Needs documenting...</p>
+
+				</article>
+				
+				<article>
+				
+					<h2><span>Global Variables</span></h2>
+						<p>Global variables are available throughout the Shopit app template files.</p>
+
+					<h3>General Template Variables</h3>
+					
+					<h4>shopit:header</h4>
+					
+						<p>Outputs the contents of the <code>header.php</code> template.</p>
+					
+					<h4>shopit:footer</h4>
+					
+						<p>Outputs the contents of the <code>footer.php</code> template.</p>
+					
+					<h4>shopit:sidebar</h4>
+					
+						<p>Outputs the contents of the <code>sidebar.php</code> template. This template does not always need to be used depending on the store's design.</p>
+					
+					<h4>shopit:content</h4>
+					
+						<p>Outputs the appropriate template depending on the page being viewed.</p>
+					
+					<h4>shopit:breadcrumb</h4>
+					
+						<p>Displays the current breadcrumb trail. This tag is available on all category and product pages. Contents of the trail are in the <code>boxes/breadcrumb.php</code> template file.</p>
+					
+						<p>There are three tags available within this template, and usually displayed in this order:</p>
+					
+						<ul>
+							<li><strong><strike>breadcrumb_parents</strike></strong> deprecated</li>
+							<li><strong><strike>bread​crumb_child</strike></strong> deprecated</li>
+							<li><strong><strike>breadcrumb_product</strike></strong> deprecated</li>
+							<li><strong>breadcrumb</strong> - outputs a complete unordered list.</li>
+						</ul>
+					
+					<h4>​shopit:search</h4>
+					
+						<p>Displays the contents of the search box template which is located in <code>boxes/search-box.php</code>.</p>
+					
+					<h4>shopit:mybasket</h4>
+					
+						<p>Displays the contents of the my basket template which is located at <code>boxes/basket.php</code>.</p>
+					
+						<p>Available variables are:</p>
+					
+						<ul>
+							<li><strong>itemtotal</strong> - displays total number of items appended with the words "items".</li>
+							<li><strong>itemtotal_int</strong> - displays only the number of items as an integer.</li>
+							<li><strong>baskettotal</strong> - displays the total price of the basket including VAT and formatted with the currency symbol.</li>
+							<li><strong>baskettotal_exvat</strong> - as above, but with VAT excluded.</li>
+						</ul>
+					
+					<h4>shopit:categories</h4>
+					
+						<p>Creates a nested list (without ul or ol tags) of all parent and sub-categories.</p>
+					
+					<h4>shopit:pages</h4>
+					
+						<p>Creates a list of cms pages without the enclosing ul or ol tags.</p>
+					
+					<h3>Store Information Variables</h3>
+					
+					<h4>store:name</h4>
+					
+						<p>Name of the store e.g. Ability Superstore.</p>
+					
+					<h4>store:company</h4>
+					
+						<p>The parent company name e.g. Specialist Mobility Ltd.</p>
+					
+						<p>Other available variables are listed below and are also available through the <code>config_item()</code> and <code>$this-&gt;config-&gt;item()</code> methods.</p>
+					
+						<ul>
+							<li><strong>store:tel</strong></li>
+							<li><strong>store:fax</strong></li>
+							<li><strong>store:email</strong></li>
+							<li><strong>store:address</strong> - outputs address as a single line.</li>
+							<li><strong>store:reg</strong> - company registration details.</li>
+							<li><strong>store:currency</strong> - displays the currency symbol, e.g. £</li>
+							<li><strong>store:vat_rate</strong> - decimal value e.g. 0.2.</li>
+							<li><strong>site_url</strong> - the full url of the store. Outputs as a <code>http</code> address.</li>
+							<li><strong>base_url</strong> - the full url of the store. Automatically checks the current url for <code>http</code> or <code>https</code> and returns accordingly.</li>
+						</ul>
+					
+					<h4>currency</h4>
+					
+						<p>Displays the currency symbol as set in the store's configuration.</p>
+					
+					<h4>site_url</h4>
+					
+						<p>Outputs the URL of the website including <code>http</code>.</p>
+
+					<h4>base_url</h4>
+					
+						<p>Outputs the URL of the website with either <code>http</code> or <code>https</code> depending on the currently viewed page. This is suitable when needing to switch between the http protocols.</p>
+					
+					<h4>current_url</h4>
+					
+						<p>Outputs the URL of the current page.</p>
+					
+					<h4>page_type</h4>
+					
+						<p>Defines the type of page currently being displayed. Available types are <code>home</code>, <code>collection</code>, <code>tag</code>, <code>search</code>, <code>brand</code>, <code>basket</code>, <code>checkout</code>, <code>categories</code>, <code>category</code> or <code>product</code>.</p>
+					
+					<h3>Meta/SEO Variables</h3>
+					
+					<h4>page_title</h4>
+					
+						<p>Displays the page title - usually used for the browser's title bar.</p>
+					
+					<h4>meta_description</h4>
+					
+						<p>Outputs the pre-filled meta description tag for the <code>&lt;head&gt;</code> section.</p>
+					
+					<h4>meta_keywords</h4>
+					
+						<p>Outputs the pre-filled meta keywords tag for the <code>&lt;head&gt;</code> section.</p>
+					
+					<h4>meta_custom</h4>
+					
+						<p>Outputs any custom meta tags for the <code>&lt;head&gt;</code> section.</p>
+						
+					<h4>canonical_url</h4>
+					
+						<p>Outputs the current url with query string parameters removed.</p>
+						
+					<h4>canonical_url_mobile</h4>
+					
+						<p>As above tag, but switches urls from <code>www.</code> to <code>m.</code> and vice-versa.</p>
+					
+					<h3>Module Related Variables</h3>
+					
+					<h4>shopit:myaccount:links</h4>
+					
+						<p>Displays the links to the My Account area if the module is installed.</p>
+						
+					<h4>shopit:myaccount:logged_in</h4>
+					
+						<p>Returns boolean <code>true</code> when user is logged in to My Account and <code>false</code> when not.
+					
+					<h3>Conditional Global Variables</h3>
+					
+					<h4>Simple Conditionals</h4>
+					
+						<p>A conditional is considered “simple” if it is evaluating variables that are already available by the time the template parsing engine reaches the simple conditionals parsing stage. The expression evaluates a single variable (i.e. contains no logical operators such as OR, AND) and may use the <em>else</em> control structure. A simple conditional may look like this:</p>
+					
+<pre>
+{if {total_products} &gt; 0}
+   &lt;h2&gt;Products&lt;/h2&gt;
+{else}
+   &lt;h2&gt;Sorry, no products in this category&lt;/h2&gt;
+{/if}</pre>
+					
+				</article>
+									
+				<article>
+									
+					<h2><span>Homepage Template</span></h2>
+						<p>The following variables apply to the homepage template.</p>
+					
+						<p>Template located at <code>store/views/content/homepage.php</code>.</p>
+					
+					<h3>Featured Product Variables</h3>
+					
+						<p>Before featured products can be displayed on the homepage, the product loop <code>{item}</code> must be declared as below. The featured products are pulled via the 'featured products' collection in the admin or if this is empty then the latest recently added items are shown.</p>
+					
+<pre>
+{item}
+   //Add the product tags/variables from the list below within this loop...
+{/item}</pre>
+					
+					<h4>product_count</h4>
+					
+						<p>Outputs and incremental count per product. So item 1 is 1, 2 is 2, 5 would be 5, etc.</p>
+					
+					<h4>product_id</h4>
+					
+						<p>The database id of the product.</p>
+					
+					<h4>cat_id</h4>
+					
+						<p>The category id the product belongs to.</p>
+					
+					<h4>product_type</h4>
+					
+						<p>The type of product. This can either be <code>single</code> or <code>variation</code>. The latter indicates this item has variations attached to it (parent/child).</p>
+					
+					<h4>product_name</h4>
+					
+						<p>The title of the parent product.</p>
+					
+					<h4>product_description</h4>
+					
+						<p>Fully formatted product description.</p>
+					
+					<h4>product_excerpt</h4>
+					
+						<p>Fully formatted product excerpt. This field is treated like a secondary content area.</p>
+					
+					<h4>product_summary</h4>
+					
+						<p>Outputs the first paragraph of the product description.</p>
+					
+					<h4>product_brand</h4>
+					
+						<p>The brand or manufacturer of the product.</p>
+					
+					<h4>product_brand_slug</h4>
+					
+						<p>The url friendly version of the brand. This is useful to create links to brand pages.</p>
+					
+					<h4>product_price</h4>
+					
+						<p>The product's price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the lowest priced variation will be output. Sale price is output instead of the product price when applicable. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_exvat</h4>
+					
+						<p>The product price, excluding VAT, formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_saleprice</h4>
+					
+						<p>The product sale/discounted price formatted with currency symbol and decimal values. Includes VAT. The base_rate setting is not applied to this field.</p>
+					
+					<h4>product_saleprice_exvat</h4>
+					
+						<p>The product sale/discounted price, excluding VAT, formatted with currency symbol and decimal values.</p>
+					
+					<h4>max_price</h4>
+					
+						<p>The product's maximum price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the highest priced variation will be output (takes sale prices in to account). The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>max_price_exvat</h4>
+					
+						<p>As max_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_range</h4>
+					
+						<p>Displays the price in the format £10.00 - £50.00. Includes VAT and currency symbols.</p>
+					
+					<h4>product_price_range_exvat</h4>
+					
+						<p>As product_price_range, but excluding VAT.</p>
+					
+					<h4>get_product_price</h4>
+					
+						<p>Outputs the product price as set in the database (sales price is not factored in). Includes VAT and is formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>get_product_price_exvat</h4>
+					
+						<p>As get_product_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>css_classes</h4>
+					
+						<p>Outputs a set of product related css classes - useful for development. Outputted classes are <code>product-[integer]</code>, <code>productid-[integer]</code>, <code>product-brand</code>, <code>sale-item</code> (if product is on sale), <code>product-type</code> ("single" or "variation").</p>
+					
+					<h4>url</h4>
+					
+						<p>Provides the full url to the product page.</p>
+					
+					<h4>product_image</h4>
+					
+						<p>The product thumbnail resized according to the store's configuration.</p>
+					
+					<h4>product_code</h4>
+					
+						<p>The SKU of the product.</p>
+					
+					<h4>custom:data</h4>
+					
+						<p>Custom data fields can be displayed within the product template if they are enabled in the admin. Tags should be in the format <code>{custom:<em>custom_field_label</em>}</code> - the tags can also be found in the <code>Custom Fields</code> section of the Shopit admin.</p>
+					
+				</article>
+									
+				<article>
+									
+					<h2><span>Category Template</span></h2>
+						<p>These variables are available for categories, collections, tags, brands and search result pages.</p>
+					
+						<p>Template: <code>content/products.php</code></p>
+					
+					<h3>Category Variables</h3>
+					
+					<h4>cat_name</h4>
+					
+						<p>The name of the current category page being viewed.</p>
+					
+					<h4>cat_id</h4>
+					
+						<p>The database category ID of the current category page being viewed.</p>
+					
+					<h4>cat_desc</h4>
+					
+						<p>HTML formatted category description</p>
+					
+					<h4>cat_excerpt</h4>
+					
+						<p>HTML formatted category excerpt. This field is used as a secondary content area.</p>
+					
+					<h4>cat_url</h4>
+					
+						<p>The full url of the current category page.</p>
+					
+					<h4>cat_image</h4>
+					
+						<p>Displays the category image if available with <code>&lt;img&gt;</code> tag. This only outputs if the categoryicons module is installed.</p>
+					
+					<h4>cat_image_file</h4>
+					
+						<p>The filename of the category image without the <code>&lt;img&gt;</code> tag. Useful for custom coding. This only outputs if the categoryicons module is installed.</p>
+					
+					<h4>total_products</h4>
+					
+						<p>The total number of products found in the current category.</p>
+					
+					<h4>showing</h4>
+					
+						<p>Displays the number of currently viewed items e.g. 12-24. Used with the above tag could produce text like "showing 1-12 of 100 items".</p>
+					
+					<h4>message</h4>
+					
+						<p>Displays a default message when there are no products within the selected category.</p>
+					
+					<h4>shopit:sort_options</h4>
+					
+						<p>Includes the <code>boxes/search-sort.php</code> template which includes the results sorting options i.e. products per page, sort by price, etc. The pagination tag can also be included within the template. See below for available variables.</p>
+					
+					<h4>shopit:layers</h4>
+					
+						<p>Includes the <code>boxes/layers.php</code> template which is used for product filtering (layered navigation) - see below for available variables.</p>
+					
+					<h4>pagination</h4>
+					
+						<p>Outputs the pagination list. More config settings can be found in <code>store/config/pagination.php</code>.</p>
+						
+					<h3>Additional Collection Variables</h3>
+					
+					<p>The following additional variables are available for collection pages.</p>
+					
+					<h4>collection_id</h4>
+					
+					<p>The database collection ID of the current collection page being viewed.</p>
+					
+					<h4>collection_group</h4>
+					
+					<p>The group the current collection page belongs to.</p>
+					
+					<h3>Product Variables</h3>
+					
+						<p>Before products can be displayed on any type of category page (including collections, search results, brands and tags), the <code>{item}{/item}</code> product loop must be declared as follows:</p>
+					
+<pre>
+{item}
+   //Add the product tags/variables from the list below within this loop...
+{/item}</pre>
+
+					<h4>product_count</h4>
+					
+						<p>Outputs and incremental count per product. So item 1 is 1, 2 is 2, 5 would be 5, etc. This counter is affected by pagination, so the first product on page five would be 1.</p>
+					
+					<h4>product_id</h4>
+					
+						<p>The database id of the product.</p>
+					
+					<h4>cat_id</h4>
+					
+						<p>The category id the product belongs to.</p>
+					
+					<h4>product_type</h4>
+					
+						<p>The type of product. This can either be <code>single</code> or <code>variation</code>. The latter indicates this item has variations attached to it (parent/child).</p>
+					
+					<h4>product_name</h4>
+					
+						<p>The title of the parent product.</p>
+					
+					<h4>product_code</h4>
+					
+						<p>The SKU of the product.</p>
+					
+					<h4>product_description</h4>
+					
+						<p>Fully formatted product description.</p>
+					
+					<h4>product_excerpt</h4>
+					
+						<p>Fully formatted product excerpt. This field is treated like a secondary content area.</p>
+					
+					<h4>product_summary</h4>
+					
+						<p>Outputs the first paragraph of the product description. All HTML tags removed (including paragraphs).</p>
+					
+					<h4>product_brand</h4>
+					
+						<p>The brand or manufacturer of the product.</p>
+					
+					<h4>product_brand_slug</h4>
+					
+						<p>The url friendly version of the brand. This is useful to create links to brand pages.</p>
+					
+					<h4>product_price</h4>
+					
+						<p>The product's price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the lowest priced variation will be output. Sale price is output instead of the product price when applicable. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_exvat</h4>
+					
+						<p>The product price, excluding VAT, formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_saleprice</h4>
+					
+						<p>The product sale/discounted price formatted with currency symbol and decimal values. Includes VAT. The base_rate setting is not applied to this field.</p>
+					
+					<h4>product_saleprice_exvat</h4>
+					
+						<p>The product sale/discounted price, excluding VAT, formatted with currency symbol and decimal values.</p>
+					
+					<h4>max_price</h4>
+					
+						<p>The product's maximum price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the highest priced variation will be output (takes sale prices in to account). The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>max_price_exvat</h4>
+					
+						<p>As max_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_range</h4>
+					
+						<p>Displays the price in the format £10.00 - £50.00. Includes VAT and currency symbols.</p>
+					
+					<h4>product_price_range_exvat</h4>
+					
+						<p>As product_price_range, but excluding VAT.</p>
+					
+					<h4>get_product_price</h4>
+					
+						<p>Outputs the product price as set in the database (sales price is not factored in). Includes VAT and is formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>get_product_price_exvat</h4>
+					
+						<p>As get_product_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>css_classes</h4>
+					
+						<p>Outputs a set of product related css classes - useful for development. Outputted classes are <code>product-[integer]</code>, <code>productid-[integer]</code>, <code>product-brand</code>, <code>sale-item</code> (if product is on sale), <code>product-type</code> ("single" or "variation").</p>
+					
+					<h4>url</h4>
+					
+						<p>Provides the full url to the product page.</p>
+					
+					<h4>product_image</h4>
+					
+						<p>The product thumbnail resized according to the store's configuration.</p>
+					
+					<h4>custom:data</h4>
+					
+						<p><code>Deprecated</code> <strike>Custom data fields can be displayed within the product template if they are enabled in the admin. Tags should be in the format <code>{custom:<em>custom_field_label</em>}</code> - the tags can also be found in the <code>Custom Fields</code> section of the Shopit admin.</strike></p>
+						
+						<p>Use <code>get_custom_field()</code> core library function instead.</p>
+					
+					<h3>Results Sorting  Per Page</h3>
+					
+						<p>The template for these two features resides at <code>store/views/boxes/sort.php</code>. Sorting produces a list* of sorting options such as by product name, best sellers, price, etc. Per page provides a list of available options to change the number of items that are displayed on a single category page. It both cases the loop must be declared as displayed in the example below.</p>
+					
+						<p>* The selected sorting option is always moved to the top of the list.</p>
+					
+<pre>
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Sort By:&lt;/strong&gt;
+
+    {results_sort}
+    &lt;li class="{results_sort_css_classes}"&gt;&lt;a href="{results_sort_url}" rel="noindex"&gt;{results_sort_label}&lt;/a&gt;&lt;/li&gt;
+    {/results_sort}
+&lt;/ul&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Per Page:&lt;/strong&gt;&lt;/li&gt;
+
+    {results_perpage}
+    &lt;li class="{results_perpage_css_classes}"&gt;&lt;a href="{results_perpage_url}" rel="noindex"&gt;{results_perpage_label}&lt;/a&gt;&lt;/li&gt;
+    {/results_perpage}
+&lt;/ul&gt;</pre>
+					
+						<p>Available tags are as follows:</p>
+					
+						<ul>
+							<li><strong>results_sort_css_classes</strong> - A list of css classes relating to the option.</li>
+							<li><strong>results_sort_url</strong> - The url for the option to to be applied.</li>
+							<li><strong>results_sort_label</strong> - The option's label<br>
+							​</li>
+							<li><strong>results_perpage_css_classes</strong> - A list of css classes relating to the option.</li>
+							<li><strong>results_perpage_url</strong> - The url for the option to to be applied.</li>
+							<li><strong>results_perpage_label</strong> - The option's label</li>
+						</ul>
+					
+				</article>
+									
+				<article>
+									
+					<h2><span>Layered Navigation (Filters)</span></h2>
+						<p>These variables only apply if the filter module is installed and only applies to category pages.</p>
+					
+						<p>The template resides at <code>store/views/boxes/layers.php</code>.</p>
+					
+					<h3>Available Filters</h3>
+					
+						<p>Before filters can be displayed on category pages the <code>{layers}{/layers}</code> loop must be declared as follows:</p>
+					
+<pre>
+{layers}
+   //Add the tags/variables from the list below within this loop...
+{/layers}</pre>
+
+					<h4>group_label</h4>
+					
+						<p>The label for the current layers/filters group.</p>
+					
+					<h4>group_type</h4>
+					
+						<p>The type of group this set is. This would be either a <code>list</code> or <code>swatches</code>.</p>
+					
+					<h4>group_empty</h4>
+					
+						<p>Defines whether the group is empty of filters or not. Returns <code>true</code> or <code>false</code> (as strings, not boolean).</p>
+					
+					<h4>layer</h4>
+					
+						<p>Variable pair to display filters within this group. The following variables are available:</p>
+					
+						<ul>
+							<li><strong>field_name</strong> - The name of the database field which should be applied to any inputs.</li>
+							<li><strong>field_val</strong> - The value of the database field which should be applied to any inputs. This will always be 1.</li>
+							<li><strong>label</strong> - The name of the filter option.</li>
+							<li><strong>swatch</strong> - HTML snippet to display the filter's colour option.</li>
+							<li><strong>colour</strong> - HEX colour code of filter if applicable.</li>
+							<li><strong>url</strong> - The URL to apply the filter to the current product set.</li>
+							<li><strong>css_classes</strong> - A set of css classes relating to this filter option and group.</li>
+							<li><strong>product_count</strong> - Number of products to which this filter applies.</li>
+							<li><strong>field_html</strong> - The complete HTML to display this filter option. Using this tag is highly recommended as it creates everything that is required.</li>
+						</ul>
+						
+					<h3>Active Filters (Selected)</h3>
+					
+						<p>Before active filters can be displayed on category pages the loop <code> {layers_selected}</code> must be declared as follows:</p>
+					
+<pre>
+{layers_selected}
+  //Add the tags/variables from the list below within this loop...
+{/layers_selected}</pre>
+
+					<h4>selected_group</h4>
+					
+						<p>The name of the group to which this filter belongs e.g. Colour.</p>
+					
+					<h4>selected_layer</h4>
+					
+						<p>The name of the active filter e.g. Red.</p>
+					
+					<h4>selected_url</h4>
+					
+						<p>Creates the necessary HTML to allow the option to be removed from the list of active filters.</p>
+					
+					<h3>Sample Code</h3>
+					
+						<p>The following code is an example of how to display layered navigation on the category pages.</p>
+					
+<pre>
+&lt;ul&gt;
+    {layers_selected}
+    &lt;li&gt;&lt;strong&gt;{selected_group}{if {selected_group} != 'Active Filters'}:{/if}&lt;/strong&gt; {selected_layer} {selected_url}&lt;/li&gt;    
+    {/layers_selected}
+&lt;/ul&gt;
+
+{layers}
+    
+    {if {group_empty} == 'false'}
+    &lt;fieldset&gt;
+        &lt;legend&gt;{group_label}&lt;/legend&gt;
+        &lt;ul&gt;
+        {layer}
+            {field_html}
+        {/layer}
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+    {/if}
+    
+{/layers}</pre>
+
+				</article>
+									
+				<article>
+									
+					<h2><span>Product Template</span></h2>
+						<p>There are two templates that display product information:</p>
+					
+						<ul>
+							<li><code>single.php</code> - Used when the product is a single item and has no variations.</li>
+							<li><code>variation.php</code> - Used when a product has variations. This template outputs the product variations (see available tags below).</li>
+						</ul>
+					
+					<h3>Product Variables</h3>
+					
+					<h4>product_id</h4>
+					
+						<p>The database id of the product. This is the same as the final url segment.</p>
+					
+					<h4>product_type</h4>
+					
+						<p>The type of product. This can either be <code>single</code> or <code>variation</code>. The latter indicates this item has variations attached to it (parent/child).</p>
+					
+					<h4>product_name</h4>
+					
+						<p>Displays the name of the product.</p>
+					
+					<h4>product_desc</h4>
+					
+						<p>HTML formatted description of the product.</p>
+					
+					<h4>product_excerpt</h4>
+					
+						<p>HTML formatted excerpt that is usually used as a secondary content area.</p>
+					
+					<h4>product_tags</h4>
+					
+						<p>Lists the product tags (as links) as assigned to the item in the admin. <code>Tags:</code> is prefixed to the output.</p>
+					
+					<h4>product_attributes</h4>
+					
+						<p>Outputs an unordered list of attributes relating to the product.</p>
+					
+					<h4>product_condition</h4>
+					
+						<p>Condition of the product - usually "used" or "new".</p>
+					
+					<h4>product_file</h4>
+					
+						<p>Link to any attached file (pdf, doc or xls).</p>
+					
+					<h4>product_qty</h4>
+					
+						<p>Product's stock level as an integer.</p>
+					
+					<h4>product_stock_level</h4>
+					
+						<p>Displays the current stock level in the format <code>In stock: 100</code> or <code>Out of stock</code> if no quantity remains. On products with variations, this tag is empty.</p>
+					
+					<h4>product_brand</h4>
+					
+						<p>The brand or manufacturer of the product.</p>
+					
+					<h4>product_brand_slug</h4>
+					
+						<p>The url friendly version of the brand. This is useful to create links to brand pages.</p>
+					
+					<h4>product_rrp</h4>
+					
+						<p>The product's price as set in the admin including VAT. Formatted with currency and decimal values.</p>
+					
+					<h4>product_rrp_exvat</h4>
+					
+						<p>As product_rrp but excluding VAT.</p>
+					
+					<h4>product_price</h4>
+					
+						<p>The product's price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the lowest priced variation will be output. Sale price is output instead of the product price when applicable. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_exvat</h4>
+					
+						<p>The product price, excluding VAT, formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_dec</h4>
+					
+						<p>As per product_price but excludes the currency symbol.</p>
+					
+					<h4>product_price_exvat_dec</h4>
+					
+						<p>As per product_price_exvat but excluding the currency symbol.</p>
+					
+					<h4>product_saleprice</h4>
+					
+						<p>The product sale/discounted price formatted with currency symbol and decimal values. Includes VAT. The base_rate setting is not applied to this field.</p>
+					
+					<h4>product_saleprice_exvat</h4>
+					
+						<p>The product sale/discounted price, excluding VAT, formatted with currency symbol and decimal values.</p>
+					
+					<h4>product_price_default</h4>
+					
+						<p>Displays the default product price (as per product_price) including VAT and currency character. If this is an item with variations, the <strong>price of the first variant </strong>is returned. Sale price is not applied.</p>
+					
+					<h4>product_price_default_exvat</h4>
+					
+						<p>As per product_price_default_exvat but excluding VAT. Sale price is not applied.</p>
+					
+					<h4>max_price</h4>
+					
+						<p>The product's maximum price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the highest priced variation will be output (takes sale prices in to account). The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>max_price_exvat</h4>
+					
+						<p>As max_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_price_range</h4>
+					
+						<p>Displays the price in the format £10.00 - £50.00. Includes VAT and currency symbols.</p>
+					
+					<h4>product_price_range_exvat</h4>
+					
+						<p>As product_price_range, but excluding VAT.</p>
+					
+					<h4>get_product_price</h4>
+					
+						<p>Outputs the product price as set in the database (sales price is not factored in). Includes VAT and is formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>get_product_price_exvat</h4>
+					
+						<p>As get_product_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</p>
+					
+					<h4>product_delivery</h4>
+					
+						<p>Delivery price for the item including VAT. Defaults to UK shipping.</p>
+					
+					<h4>product_delivery_exvat</h4>
+					
+						<p>As per product_delivery, but excluding VAT.</p>
+					
+					<h4>qty_select</h4>
+					
+						<p>Produces either a dropdown with available quantities or an text input depending on the store's configuration.</p>
+					
+					<h4>product_code</h4>
+					
+						<p>The items product code or SKU.</p>
+					
+					<h4>product_ean, product_mpn, product_upc</h4>
+					
+						<p>These tags contain additional product identifiers. If empty, they output null. If this is a product with variations, these tags are available within the <code>{variations}</code> loop.</p>
+					
+					<h4>product_weight</h4>
+					
+						<p>The weight of the product in kgs.</p>
+					
+					<h4>product_image</h4>
+					
+						<p>Outputs the first product image. Dimensions depend upon the store's configuration.</p>
+					
+					<h4>product_image_default</h4>
+					
+						<p>Returns the url of the default product image. If no image is assigned, <code>null</code> is returned.</p>
+					
+					<h4>product_image_fullsize</h4>
+					
+						<p>Returns the url to the full size default product image. If no image is set, <code>null</code> is returned.</p>
+					
+					<h4>product_gallery</h4>
+					
+						<p>Displays thumbnails of all the available product images. The code generated by this tag is made to work with the built-in lightbox.</p>
+					
+					<h4>product_disabled</h4>
+					
+						<p>Outputs boolean <code>true</code> or <code>false</code>.</p>
+					
+					<h4>product_views</h4>
+					
+						<p>The number of product page hits.</p>
+					
+					<h4>btn_addtobasket</h4>
+					
+						<p>Is boolean <code>true</code> or <code>false</code>.</p>
+					
+					<h4>product_buybtn</h4>
+					
+						<p><em>For single items only.</em> Outputs the buy now button complete with the necessary hidden fields. It is important to note that this tag does not generate the necessary form tag or quantity input, so these would need to be added seperately. A complete example of the code is displayed below. The button label/value can be changed via <code>language/english/core_lang.php</code>.</p>
+
+<pre>
+&lt;form method="post" action="&lt;?=site_url('basket/additem');?&gt;"&gt;
+    {product_options}
+    &lt;fieldset class="product_option_group"&gt;
+        &lt;legend&gt;{option_group}&lt;/legend&gt;
+        {option}
+        &lt;label&gt;
+            &lt;input type="radio" name="product_option[{option_number}]" value="{option_id}" {option_checked} /&gt;
+            {option_label} (+{option_price}, {option_price_exvat} ex VAT)
+        &lt;/label&gt;&lt;br/&gt;
+        {/option}
+    &lt;/fieldset&gt;
+    {/product_options}
+    {qty_select}
+    {product_buybtn}
+&lt;/form&gt;</pre>
+
+					<h4>custom:data</h4>
+					
+						<p>Custom data fields can be displayed within the product template if they are enabled in the admin. Tags should be in the format <code>{custom:<em>custom_field_label</em>}</code> - the tags can also be found in the <code>Custom Fields</code> section of the Shopit admin.</p>
+					
+						<p>It's useful to note that these tags can also be used within the product description and product excerpt within the editor (admin).</p>
+										
+					<h3>Related Item Variables</h3>
+					
+					<h4>shopit:extra_items</h4>
+					
+						<p>Outputs the <code>boxes/extraitems.php</code> template with similar items. Available variables are listed below and must be wrapped within the <code>{extraitems}{/extraitems}</code> loop:</p>
+					
+						<ul>
+							<li><strong>item_count</strong> - Outputs an incremental count per product. So item 1 is 1, 2 is 2, 5 would be 5, etc.</li>
+							<li><strong>item_type</strong> - The type of product. This can either be <code>single</code> or <code>variation</code>. The latter indicates this item has variations attached to it (parent/child).</li>
+							<li><strong>item_url</strong> - The url to the items product page.</li>
+							<li><strong>item_name</strong> - The name of the product.</li>
+							<li><strong>item_price</strong> - The product's price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the lowest priced variation will be output. Sale price is output instead of the product price when applicable. The tag/variable outputs with base_rate setting applied.</li>
+							<li><strong>item_price_exvat</strong> - The product price, excluding VAT, formatted with currency symbol and decimal values. The tag/variable outputs with base_rate setting applied.</li>
+							<li><strong>item_max_price</strong> - The product's maximum price, including VAT, formatted with currency symbol and decimal values. When this is used on a item with variations, the highest priced variation will be output (takes sale prices in to account). The tag/variable outputs with base_rate setting applied.</li>
+							<li><strong>item_max_price_exvat</strong> - As item_max_price, but excluding VAT. The tag/variable outputs with base_rate setting applied.</li>
+							<li><strong>item_price_range</strong> - Displays the price in the format £10.00 - £50.00. Includes VAT and currency symbols.</li>
+							<li><strong>item_price_range_exvat</strong> - As product_price_range, but excluding VAT.</li>
+							<li><strong>item_brand</strong> - The brand or manufacturer of the product.</li>
+							<li><strong>item_brand_slug</strong> - The url friendly version of the brand. This is useful to create links to brand pages.</li>
+							<li><strong>item_product_id</strong> - The database ID of the product.</li>
+							<li><strong>item_description</strong> - Fully formatted product description.</li>
+							<li><strong>item_excerpt</strong> - Fully formatted product excerpt. This field is treated like a secondary content area.</li>
+							<li><strong>item_summary</strong> - Outputs the first paragraph of the product description. All HTML tags removed (including paragraphs).</li>
+							<li><strong>custom_data</strong> - Semi-colon seperated list of custom data fields.</li>
+							<li><strong>css_classes</strong> - Outputs a set of product related css classes - useful for development. Outputted classes are <code>product-[integer]</code>, <code>productid-[integer]</code>, <code>product-brand</code>, <code>sale-item</code> (if product is on sale), <code>product-type</code> ("single" or "variation").</li>
+						</ul>
+					
+					<h4>shopit:related_items</h4>
+					
+						<p>Outputs the <code>boxes/relateditems.php</code> template with related items. Available variables are as above and must be wrapped within the <code>{relateditems}{/relateditems}</code> loop</p>
+					
+					<h3>Special Offers</h3>
+					
+					<h4>shopit:specialoffers</h4>
+					
+						<p>Outputs special offers for this product.</p>
+					
+					<h3>Product Variations</h3>
+					
+						<p>Variations are applied to parent items and can be displayed as a table or dropdowns - however you see fit. </p>
+					
+					<h4>variations</h4>
+					
+						<p>Variable pair (loop) to display product variations. It is important to note that the buy button contains the required hidden input containing the product id. It is this ID that is passed to the basket.</p>
+					
+						<p>Tags available within this loop are:</p>
+					
+						<ul>
+							<li><strong>variant_count</strong> - Incremental counter for each variation.</li>
+							<li><strong>variant_id</strong> - The database ID of the variation.</li>
+							<li><strong>variant_product_image</strong> - Outputs the image of the variant. The <code>&lt;img&gt;</code> tag is automatically generated to work with the built-in lightbox. Thumbnails are are sized according to the stores config setting.</li>
+							<li><strong>variant_product_image_default</strong> - Returns the url of the default product image. If no image is assigned, <code>null</code> is returned.</li>					
+							<li><strong>variant_product_image_fullsize</strong> - Returns the url to the full size default product image. If no image is set, <code>null</code> is returned.</li>
+							<li><strong>variant_product_name</strong> - Variation's name as set in the admin.</li>
+							<li><strong>variant_product_code</strong> - Product code for this variation.</li>
+							<li><strong>variant_product_ean</strong></li>
+							<li><strong>variant_product_mpn</strong></li>
+							<li><strong>variant_product_upc</strong></li>
+							<li><strong>variant_product_rrp</strong> - The product price as set in the database. Not the sale price. Includes VAT and currency symbol.</li>
+							<li><strong>variant_product_rrp_exvat</strong> - As above, but excluding VAT.</li>
+							<li><strong>variant_product_price</strong> - The product or sale price including VAT and currency symbol. You would use this to display the variation's price.</li>
+							<li><strong>variant_product_price_exvat</strong> - As above, but excluding VAT.</li>
+							<li><strong>variant_product_price_dec</strong> - As per variant_product_price but excluding the currency symbol.</li>
+							<li><strong>variant_product_price_exvat_dec</strong> - As per variant_product_price_exvat but excluding the currency symbol.</li>
+							<li><strong>variant_product_saleprice</strong> - The product sale price as set in the database. Includes VAT and currency symbol. Defaults to £0.00 if not sale price is not set.</li>
+							<li><strong>variant_product_saleprice_exvat</strong> - As above, but excluding VAT.</li>
+							<li><strong>variant_product_options</strong> - Variable pair to display any product options attached to this variation. See <a href="http://dubbedcreative.com/shopit/docs#">product_options</a> section below for details of available tags.</li>
+							<li><strong>variant_stock_level</strong> - Displays the current stock level as an integer or "Out of stock" if 0.</li>
+							<li><strong>variant_qty_select</strong> - Produces a select dropdown with available quantities or a text input.</li>
+							<li><strong>variant_qty</strong> - Stock level for this variation as an integer.</li>
+							<li><strong>variant_buybtn</strong> - Generates the buy button together with the necessary hidden fields (product_id).  The button label/value can be changed via <code>language/english/core_lang.php</code>.</li>
+							<li><strong>variant_custom:<em>custom_field_label</em></strong> - Custom field data assigned to this variation. A list of tags can be found in the Custom Fields section of the Shopit admin.</li>
+							<li><strong>variant_css_classes</strong> - Outputs a set of variant related css classes - useful for development. Outputted classes are <code>variant-[integer]</code>, <code>variantid-[integer]</code>, <code>has-variant-attributes</code>.</li>
+						</ul>
+					
+						<p>The following code is an example of how to display them on the product page.</p>
+					
+<pre>
+{variations}
+&lt;tr&gt;
+    &lt;form method="post" action="&lt;?=site_url('basket/additem');?&gt;"&gt;
+    &lt;td&gt;{variant_id}&lt;/td&gt;
+    &lt;td align="center"&gt;{variant_product_image}&lt;/td&gt;
+    &lt;td&gt;{variant_product_name}&lt;/td&gt;
+    &lt;td&gt;{variant_product_no}&lt;/td&gt;
+    &lt;td&gt;{variant_product_ean}&lt;/td&gt;
+    &lt;td&gt;{variant_product_mpn}&lt;/td&gt;
+    &lt;td&gt;{variant_product_upc}&lt;/td&gt;
+    &lt;td&gt;{variant_product_rrp}&lt;/td&gt;
+    &lt;td&gt;{variant_product_rrp_exvat}&lt;/td&gt;
+    &lt;td&gt;{variant_product_price}&lt;/td&gt;
+    &lt;td&gt;{variant_product_price_exvat}&lt;/td&gt;
+    &lt;td&gt;{variant_product_saleprice}&lt;/td&gt;
+    &lt;td&gt;{variant_product_saleprice_exvat}&lt;/td&gt;
+    &lt;td&gt;
+        {variant_product_options}
+            &lt;label&gt;{option_group}&lt;/label&gt;
+            &lt;select name="product_option[{option_number}]"&gt;
+                {option}
+                &lt;option value="{option_id}"&gt;{option_label} (+{option_price}, {option_price_exvat} ex VAT)&lt;/option&gt;}
+                {/option}
+            &lt;/select&gt;
+        {/variant_product_options}
+    &lt;/td&gt;
+    &lt;td&gt;{variant_stock_level}&lt;/td&gt;
+    &lt;td&gt;
+        {variant_qty_select}
+        {variant_buybtn}
+    &lt;/td&gt;
+    &lt;/form&gt;
+&lt;/tr&gt;
+{/variations}</pre>
+
+					<h4>variation_selector</h4>
+					
+					<p>Produces a dynamically built group of ajax powered dropdowns (an unstyled <code>ul</code> list) which use the variant attributes (per variation) as set up in the Shopit admin. This feature is intended to be used in conjunction with the above <code>variations</code> loop.</p>
+					
+					<p>Below is an example of some <code>jquery</code> that interacts with the selector.</p>
+
+<pre>
+$('body').on('click', 'ul#shopit-variant-attrs ul li', function(){
+	
+	// Get the label for the selected option and it's value (radio button)
+	var $variant_name  = $(this).text();
+	var $variant_value = $(this).find('input').val();
+	
+	// Update the first listing in the dropdown to show the selected option
+	$(this).closest('ul').parent('li').find('span').text($variant_name);
+	
+	// If the value is a number i.e. a product ID then...
+	if ($.isNumeric($variant_value)) {
+		// ... We do whatever we need here such as show the add to 
+		// basket button, price etc.
+	}
+	
+	// Close the dropdown
+	$(this).parent('ul').slideUp('fast');
+});
+</pre>
+
+					<h3>Product Options</h3>
+					
+					<h4>product_options (single item)</h4>
+					
+						<p>Variable pair to display available product options. This first pair outputs the option groups. Available variables are:</p>
+					
+						<ul>
+							<li><strong>option_group</strong> - The name of the option group, e.g. Size, Colour, etc.</li>
+						</ul>
+					
+						<p>Within this variable pair is the <code>{option}{/option}</code> pair. Available variables are:</p>
+						
+						<ul>
+							<li><strong>option_number</strong> - The number of the option with the group, e.g. 1, 2, 3. Resets for the next group.</li>
+							<li><strong>option_id</strong> - Database ID for the product option.</li>
+							<li><strong>option_checked</strong> - Outputs <code>checked='checked'</code> to pre-select the radio buttons. If a select dropdown is used, this isn't needed as the dropdown should default to the first item in it's list.</li>
+							<li><strong>option_label</strong> - The value of the option, e.g. if this group is colour then this could be red.</li>
+							<li><strong>option_price</strong> - The additional value of the product option e.g. £5.00. Value is displayed including VAT with currency symbol.</li>
+							<li><strong>option_price_exvat</strong> - As per option_price but excluding VAT.</li>
+						</ul>
+					
+						<p>An example of how the finished code might look:</p>
+					
+<pre>
+{product_options}
+&lt;fieldset class="product_option_group"&gt;
+&lt;legend&gt;{option_group}&lt;/legend&gt;
+{option}
+&lt;label&gt;
+    &lt;input type="radio" name="product_option[{option_number}]" value="{option_id}" {option_checked} /&gt;
+    {option_label} (+{option_price}, {option_price_exvat} ex VAT)
+&lt;/label&gt;
+{/option}
+&lt;/fieldset&gt;
+{/product_options}</pre>
+
+					<h4>variant_product_options (item with variations)</h4>
+					
+						<p>This tag must appear within the <code>{variations}</code> loop - see above.</p>
+					
+						<p>Variable pair to display available product options. This first pair outputs the option groups. Available variables are:</p>
+					
+						<ul>
+							<li><strong>option_group</strong> - The name of the option group, e.g. Size, Colour, etc.</li>
+						</ul>
+						
+						<p>Within this variable pair is the <code>{option}{/option}</code> pair. Available variables are:</p>
+					
+						<ul>
+							<li><strong>option_number</strong> - The number of the option with the group, e.g. 1, 2, 3. Resets for the next group.</li>
+							<li><strong>option_id</strong> - Database ID for the product option.</li>
+							<li><strong>option_checked</strong> - Outputs <code>checked='checked'</code> to pre-select the radio buttons. If a select dropdown is used, this isn't needed as the dropdown should default to the first item in it's list.</li>
+							<li><strong>option_label</strong> - The value of the option, e.g. if this group is colour then this could be red.</li>
+							<li><strong>option_price</strong> - The additional value of the product option e.g. £5.00. Value is displayed including VAT with currency symbol.</li>
+							<li><strong>option_price_exvat</strong> - As per option_price but excluding VAT.</li>
+						</ul>
+						
+						<p>An example of how the finished code might look:</p>
+						
+<pre>
+{variant_product_options}
+    &lt;label&gt;{option_group}&lt;/label&gt;
+    &lt;select name="product_option[{option_number}]"&gt;
+        {option}
+        &lt;option value="{option_id}"&gt;{option_label} (+{option_price}, {option_price_exvat} ex VAT)&lt;/option&gt;}
+        {/option}
+    &lt;/select&gt;
+{/variant_product_options}</pre>
+
+
+				</article>
+									
+				<article>
+									
+					<h2><span>Basket Template</span></h2>
+						<p>The basket is built up of two core templates plus an optional one for the checkout page in the event you want a different design for that page.</p>
+					
+						<p>The templates reside in the <code>store/views/cart</code> folder.</p>
+					
+						<ul>
+							<li><strong>basket.php</strong> - Contains the customers basket/summary</li>
+							<li><strong>customerdetails.php</strong> - The form containing the billing and delivery address details. In most cases, this will not need to be altered.</li>
+							<li><strong>checkout.php</strong> - If this file exists in the above location, it will be called on the checkout page. All variables are available as normal.</li>
+						</ul>
+						
+						<p>The variables listed below are solely used within the <code>basket.php</code> and/or <code>checkout.php</code> template.</p>
+					
+					<h3>Basket Item Variables</h3>
+					
+						<p>To list the customer's basket summary, the basket loop <code>{basket}{/basket}</code> must be declared as follows:</p>
+					
+<pre>
+{basket}
+   //Add the basket variables from the list below within this loop...
+{/basket}</pre>
+
+					<h4>product_id</h4>
+					
+						<p>The item's product ID as set in the database.</p>
+					
+					<h4>product_remove_link</h4>
+					
+						<p>A url that can be used to remove an item from the basket.</p>
+					
+					<h4>product_url</h4>
+					
+						<p>Produces a url to link back to the product page.</p>
+					
+					<h4>product_image</h4>
+					
+						<p>Generates a thumbnail of the product complete with <code>&lt;img&gt;</code> tag. Dimensions are currently set via the site's configuration.</p>
+					
+					<h4>product_image_link</h4>
+						
+						<p>Outputs the image url using the built-in resizer e.g. <code>http://store.domain.co.uk/image/resize/my-image.jpg</code>. The dimensions required can be appended to the url in the form <code>/width/height</code>.</p>
+					
+					<h4>product_name</h4>
+					
+						<p>The title of the product. If this is a variation the parent product name is prepended.</p>
+					
+					<h4>product_no</h4>
+					
+						<p>The product code. If this is a variation, it's product code will be displayed instead.</p>
+					
+					<h4>product_offer</h4>
+					
+						<p>Displays the offer label as set in the Shopit admin.</p>
+					
+					<h4>product_stock_level</h4>
+					
+						<p>Outputs the current stock level as an integer. The quantity of the current item is not removed from this value.</p>
+					
+					<h4>product_qty</h4>
+						
+						<p>Returns the quantity added to basket by the customer.</p>
+					
+					<h4>product_qty_select</h4>
+					
+						<p>Produces either a dropdown with available quantities or an text input depending on the store's configuration. </p>
+					
+					<h4>product_price</h4>
+					
+						<p>The price of the product including VAT and currency symbol.</p>
+					
+					<h4>product_price_exvat</h4>
+					
+						<p>As product_price, but excluding VAT.</p>
+					
+					<h4>product_saleprice</h4>
+					
+						<p>The product sale/discounted price formatted with currency symbol. Includes VAT.</p>
+					
+					<h4>product_saleprice_exvat</h4>
+					
+						<p>As product_saleprice, but excluding VAT.</p>
+					
+					<h4>product_linetotal</h4>
+					
+						<p>The total price of the line items i.e. product_price multiplied by the item quantity. Is formatted with the currency symbol and excludes VAT.</p>
+					
+					<h4>parent_id</h4>
+					
+						<p>The database product ID of the parent item - if this is a variation in the basket.</p>
+					
+					<h4>parent_name</h4>
+					
+						<p>The product name of the parent item - if this is a variation in the basket.</p>
+					
+					<h4>parent_slug</h4>
+					
+						<p>The url friendly version of the parent's product name - if this is a variation in the basket.</p>
+					
+					<h4>product_options</h4>
+					
+						<p>A variable pair to output this basket item's options if any. The following variables are available within the loop:</p>
+					
+						<ul>
+							<li><strong>option_no</strong> - an incremental number for the option, e.g. 1, 2, 3.</li>
+							<li><strong>option_label</strong> - e.g. Size, Colour, etc.</li>
+							<li><strong>option_value</strong> - e.g. Small, Blue, etc.</li>
+							<li><strong>option_delimiter</strong> - produces a comma separator if the options are displayed as a list.</li>
+						</ul>
+					
+						<p>An example of the code:</p>
+					
+<pre>
+{product_options}
+    {option_no}. {option_label}: {option_value}{option_delimiter}
+{/product_options}</pre>
+
+					<h3>Basket Total Variables</h3>
+					
+					<h4>sub_total</h4>
+					
+						<p>The sub total of the line items including VAT. Formatted with currency character.</p>
+					
+					<h4>sub_total_exvat</h4>
+					
+						<p>As per sub_total but excluding VAT.</p>
+					
+					<h4>discount</h4>
+					
+						<p>Outputs the discount if any.</p>
+					
+					<h4>shipping_calc</h4>
+					
+						<p>A variable pair to display shipping/delivery country options. The following variables are available within the loop:</p>
+					
+						<ul>
+							<li><strong>shippi​ng_country_name</strong> - Country name.</li>
+							<li><strong>is_shipping_default</strong> - produces <code>selected='selected'</code> for use on select dropdowns.</li>
+						</ul>
+					
+						<p>The select form field must be named (with both <code>name</code> and <code>id</code> attributes) <code>ShippingCalc</code>. Here's an example of how the code should look:</p>
+					
+<pre>
+&lt;select name="ShippingCalc" id="ShippingCalc" class="basket-dropdown"&gt;
+   {shipping_calc}
+   &lt;option value="{shipping_country_name}"{is_shipping_default}&gt;{shipping_country_name}&lt;/option&gt;
+   {/shipping_calc}
+&lt;/select&gt;</pre>
+
+					<h4>shipping</h4>
+					
+						<p>Produces the delivery options for the country selected through the <code>{shipping_calc}</code> variable.</p>
+					
+					<h4>tax</h4>
+					
+						<p>Outputs the total tax payable.</p>
+					
+					<h4>total</h4>
+					
+						<p>Outputs the payable total of this customer's basket including VAT and shipping. Returns a currency formatted value.</p>
+					
+					<h4>link_to_terms</h4>
+					
+						<p>A url to the terms and conditions page.</p>
+					
+					<h4>to_pay</h4>
+					
+						<p>Outputs the payable total of this customer's basket including VAT and shipping. Returns a currency formatted value.</p>
+					
+					<h4>payment_options</h4>
+					
+						<p>Outputs the form fields for the payment gateways as set in the store's configuration.</p>
+					
+					<h3>Required Form Fields &amp; Variables</h3>
+					
+						<p>The following <strong>hidden</strong> form fields are required for the basket/checkout to operate correctly. Most contain encrypted values.</p>
+					
+						<ul>
+							<li><strong>shipping_encrypted</strong></li>
+							<li><strong>shipping_method</strong></li>
+							<li><strong>vat_encrypted</strong></li>
+							<li><strong>total_encrypted</strong></li>
+							<li><strong>weight_encrypted</strong></li>
+							<li><strong>discount_encrypted</strong></li>
+						</ul>
+					
+						<p><strong>​</strong>The HTML should be as follows:</p>
+					
+<pre>
+&lt;input type="hidden" name="shipping" id="shipping" value="{shipping_encrypted}" /&gt;
+&lt;input type="hidden" name="shipping_method" id="shipping_method" value="{shipping_method}" /&gt;
+&lt;input type="hidden" name="vat" id="vat" value="{vat_encrypted}" /&gt;
+&lt;input type="hidden" name="amount" id="amount" value="{total_encrypted}" /&gt;
+&lt;input type="hidden" name="weight" id="weight" value="{weight_encrypted}" /&gt;
+&lt;input type="hidden" name="discount" id="discount" value="{discount_encrypted}" /&gt;</pre>
+					
+					<h3>Module Related Variables</h3>
+					
+					<h4>shopit:coupons</h4>
+					
+						<p>Displays the coupon/voucher code form. As this is a form it should be placed outside the basket/checkout form.</p>
+					
+					<h4>shopit:myaccount:login</h4>
+					
+						<p>Displays the customer/my account login box.</p>
+					
+				</article>
+									
+				
+				<article>
+									
+					<h2><span>Page Template</span></h2>
+						<p>There are two templates available when creating content specific pages:</p>
+					
+						<ul>
+							<li><code>global/document.php</code> - should contain HTML for the general design of the page (which usually matches the rest of the website)</li>
+							<li><code>content/document.php</code> - contains the HTML for the actual content</li>
+						</ul>
+					
+					<h3>Page Variables</h3>
+					
+						<p>The following variables are available in the homepage and page templates.</p>
+					
+					<h4>doc_title</h4>
+					
+						<p>The title of the page as defined in the admin. This will automatically be overridden by the custom heading if set.</p>
+					
+					<h4>doc_content</h4>
+					
+						<p>The page's content, formatted in HTML.</p>
+					
+					<h4>page_id</h4>
+					
+						<p>The database id of the page.</p>
+					
+					<h4>page_slug</h4>
+					
+						<p>The URL slug of the page.</p>
+					
+				</article>
+									
+				<article>
+									
+					<h2><span>Helper Functions &amp; Libraries</span></h2>
+					
+					<h4>core_files(<em>ssl</em>)</h4>
+					
+						<p>Includes the core files used for the Shopit Storefront to operate correctly e.g. jquery, stylesheets, etc. This function should be placed in the <code>&lt;head&gt;</code>.</p>
+					
+					<h4>resize_image(<em>image_file</em>, <em>width</em>, <em>height</em>)</h4>
+					
+						<p>Gets and resizes the passed image file. The image file would be as in the database. Outputs with the <code>&lt;img&gt;</code> tag.</p>
+					
+					<h4>get_product_slug(<em>product_id</em>)</h4>
+					
+						<p>Retrieves the product url for the current passed product ID e.g. <code>category/subcategory/product-title/product-id</code>.</p>
+					
+					<h4>is_selected(<em>value</em>, <em>comparison</em>)</h4>
+					
+						<p>Returns <code>selected="selected"</code> for dropdown pre-selection.</p>
+					
+					<h4>is_checked(<em>value</em>, <em>comparison</em>)</h4>
+					
+						<p>Same as above, but for checkboxes and radio buttons.</p>
+					
+					<h4>body_class()</h4>
+					
+						<p>Outputs the current platform and browser as classes that can be applied to the <code>&lt;body&gt;</code> tag.</p>
+					
+					<h4>is_not_basket()</h4>
+					
+						<p>Returns boolean <code>true</code> if this is not a basket page.</p>
+					
+					<h4>nice_date(<em>date</em>, <em>format</em>)</h4>
+					
+					<h4>money(<em>value</em>, <em>decimals=true</em>, <em>rounding=true</em>, <em>output_price_with_vat=true</em>, <em>include_currency=true</em>, <em>force_rounddown=false</em>)</h4>
+					
+						<p>Formats the passed <code>$value</code> into a monetary value with currency symbol. Parameters enable decimals to be displayed, price round down and price including VAT - all <code>true</code> by default.</p>
+					
+					<h4>capitalise(<em>string</em>)</h4>
+					
+						<p>Capitalises every word in the passed string.</p>
+					
+					<h4>uppercase(<em>string</em>)</h4>
+						<p>Uppercase the entire string.</p>
+					
+					<h4>capfirst(<em>string</em>)</h4>
+						<p>Capitalise the first word of the passed string.</p>
+					
+					<h4>cookie_monster(<em>message</em>, <em>link_to_policy</em>, <em>classes</em>, <em>styles</em>, <em>show_continue</em>, <em>hide_message_on_visit</em>)</h4>
+					
+					<h4>get_first_paragraph(<em>string</em>)</h4>
+					
+						<p>Returns the first paragraph of the passed string. This function is now available as a product tag on the category, search results, collections, related item templates.</p>
+
+					<h3>Snippets (Widgets)</h3>
+					
+					<p>The <code>snippet_widget()</code> function below should be used when working with 'widget' type snippets on the store front. It is important to note that template tags in the form <code>{sn_my_snippet}</code> will <strong>not output</strong> content if the snippet is a widget.</p>
+					
+					<h4>snippet_widget(<em>$snippet[array]</em>, <em>'function[string]'</em>)</h4>
+					
+					<p>Outputs the contents of the passed <code>function</code> complete with editable boundary. <code>$snippet</code> is the snippet variable e.g. $sn_my_snippet_widget. <code>function</code> (string) is the name of the custom function to call which would typically reside in <code>store/views/functions.php</code>. One parameter must be sent to the custom function which contains the snippet data.</p>
+					
+					<h3>Contact Form</h3>
+					
+						<p>The <code>form()</code> function below creates the necessary form html, messages and validation.</p>
+					
+					<h4>form(<em>fields_array</em>, <em>[optional:]formid</em>, <em>[optional:]input_class</em>, <em>[optional:]confirmation_message</em>)</h4>
+					
+						<p>The array passed to the function should be in the following structure.</p>
+					
+<pre>
+$fields = array(
+	array(
+		'name' 	     =&gt; 'Email',                   // Name of the field e.g. Email, Message, First Name, etc
+		'message'    =&gt; '&lt;strong&gt;email&lt;/strong&gt;',  // Validation error message
+		'validation' =&gt; 'trim|required',           // Validation rules *
+		'id'         =&gt; 'txtEmail',                // HTML/CSS ID reference
+		'type' 	     =&gt; 'text',                    // Input type: text|textarea|checkbox|radio
+		'label'      =&gt; 'Name: ',                  // Label for the field
+		'value'      =&gt; 'value',                   // Optional: Fields value (more for radios and checkboxes)
+		'checked'    =&gt; 'true or false',           // Optional: Sets the checked status for radios and checkboxes
+    )
+	// Add next field array here...
+);</pre>
+
+						<p>* For full set of available validation rules, see <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html">http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html</a></p>
+					
+						<p>A basic sample form is shown below:</p>
+					
+<pre>
+// Set the fields
+$fields = array(
+	array(
+		'name' 		 =&gt; 'Name',
+		'message' 	 =&gt; '&lt;strong&gt;name&lt;/strong&gt;',
+		'validation'     =&gt; 'trim|required',
+		'id' 		 =&gt; 'txtName',
+		'type' 		 =&gt; 'text',
+		'label' 	 =&gt; 'Name: * ',
+	),
+	array(	
+		'name' 		 =&gt; 'Email', 
+		'message' 	 =&gt; '&lt;strong&gt;email&lt;/strong&gt;',
+		'validation'     =&gt; 'trim|required',
+		'id' 		 =&gt; 'txtEmail',
+		'type' 		 =&gt; 'text',
+		'label' 	 =&gt; 'Email: * ',
+	),	
+	array(	
+		'name' 		 =&gt; 'Subject',
+		'message' 	 =&gt; '&lt;strong&gt;subject&lt;/strong&gt;',
+		'validation'     =&gt; 'trim|required',
+		'id' 		 =&gt; 'txtSubject',
+		'type' 		 =&gt; 'text',
+		'label' 	 =&gt; 'Subject: * ',
+	),	
+	array(	
+		'name' 		 =&gt; 'Message',
+		'message' 	 =&gt; '&lt;strong&gt;message&lt;/strong&gt;',
+		'validation'     =&gt; 'trim|required',
+		'id' 		 =&gt; 'txtMessage',
+		'type' 		 =&gt; 'textarea',
+		'label' 	 =&gt; 'Message: * ',
+	),	
+);
+
+// Output the form with an HTML ID attribute of 'frmContact'
+echo form($fields, 'frmContact');</pre>
+					
+				</article>
+				
+				<article>
+					
+					<h2><span>Core Library Functions</span></h2>
+						<p>The core library contains a set of available functions that can be used to create custom data calls and displays.</p>
+					
+						<p>Call any of the functions below using <code>$this-&gt;core-&gt;<em>function_name($parameters)</em></code>.</p>
+					
+					<h4>get_products(<em>criteria</em>, <em>limit=20</em>, <em>order_by='min_price asc'</em>, <em>exclude_product=null</em>)</h4>
+					
+						<p>This function gets a set amount of products based on the passed criteria.</p>
+					
+						<ul>
+							<li><strong>criteria</strong> defines the products you would like to get, for example, if you want all the products that have the brand "Apple" set this parameter as <code>product_brand="Apple"</code>.</li>
+							<li><strong>limit</strong> is the number of products to return, default is 20.</li>
+							<li><strong>order_by</strong> sets how you would like the data ordered. Default is by minimum price ascending.</li>
+							<li><strong>exclude_product</strong> tells the function to exclude the passed <code>product_id</code>. Leave as <code>null</code> to return it (default)</li>
+						</ul>
+					
+						<p>Returns a PHP <code>array()</code> consisting of most of the variables as listed in the <a href="#categoryTemplate">Category Templates</a> section.</p>
+					
+					<h4>get_collection_items(<em>$collection_id</em>, <em>$separator="|"</em>, <em>$include_field_name=true</em>)</h4>
+					
+						<p>Returns a list of product IDs separated by <code>$separator</code>. <code>$include_field_name</code> will output the IDs prefixed with <code>"product_id="</code>.</p>
+					
+					<h4>get_categories(<em>$cat_id</em>)</h4>
+					
+						<p>Returns an <code>(object) array()</code> of categories within the parent <code>$cat_id</code>.</p>
+						
+					<h4>collections_list(<em>$collection_group_id=0</em>)</h4>
+					
+						<p>Returns an unordered list of collection links within the passed collection group ID. Pass <code>0</code> to return collections that are ungrouped.</p>
+						
+					<h4>dynamic_categories(<em>$cat_id</em>, <em>$colour='255,255,255'</em>, <em>$size=null</em>, <em>$title_tag='h3'</em>, <em>$ignore_cat_image=false</em>)</h4>
+					
+						<p>Outputs an unordered list of immediate child categories for the current category. The URLs of the sub-categories will be based on the current category's URL. The <code>$colour</code> parameter enables shades to be applied to categories where images are not available.</p>
+						
+					<h4>mybasket(<em>$thumbnail_size=50</em>, <em>$include_vat=false</em>)</h4>
+	
+						<p>A detailed version of the basket summary that includes the product image, name, quantity and price. Outputs an unordered list or <code>null</code> if empty.</p>
+						
+					<h4>get_cross_sells(<em>$product_id</em>, <em>$type</em>, <em>$ignore_type='variant'</em>, <em>$thumbnail_size={null or integer}</em>)</h4>
+						
+						<p>Outputs an array of related cross-sells. <code>$type</code> is the cross-sell type as defined in the cross-sell groups section of the admin.</p>
+
+					<h4>get_item(<em>$product_id</em>, <em>$size=null</em>)</h4>
+					
+						<p>Returns a single product <code>$product_id</code> as a PHP <code>array()</code> consisting of most of the variables as listed in the <a href="#categoryTemplate">Category Templates</a> section. <code>$size</code> specifies the image size as an integer (if set as <code>null</code>, store configuration is used.</p>
+						
+					<h4>get_custom_field(<em>$product_id</em>, <em>$field_label</em>, <em>$type='inventory'</em>, <em>$return_all=false</em>)</h4>
+					
+					<p>Returns the custom field data for the passed <code>$product_id</code>.</p>
+					
+					<ul>
+						<li><strong>product_id</strong> - Database ID of the product.</li>
+						<li><strong>field_label</strong> - Name of the custom field to get. This name should match the value in the database and not that which is displayed in the admin (e.g. custom_my-custom-field).</li>
+						<li><strong>type</strong> - Either 'inventory' or 'orders'. Default is 'inventory'.</li>
+						<li><strong>return_all</strong> - If <code>false</code>, function returns only the data/value of the custom field. If set to <code>true</code>, the entire database row is returned as an <code>array()</code>.</li>
+					</ul>
+
+					<h4>get_brands()</h4>
+	
+						<p>Returns a php <code>array</code> of brands in ascending order. Array contains <code>product_brand</code> and <code>product_slug</code>.</p>
+					
+				</article>
+				
+				<article>
+					
+					<h2><span>Web Services</span></h2>
+					
+					<p>There web services listed below enable Shopit3 data to be passed to third-party websites e.g. WordPress blogs. </p>
+					
+					<p>An <strong>API key</strong> must be generated (via the Shopit admin) and set for these web services to work correctly. All web services return <strong>JSON</strong> formatted data.</p>
+					
+					<h3>Products</h3>
+					
+					<p>This web service returns a list of products based on the lookup type of either brand, tag, keyword or category. The following query string parameters can be passed and must be url encoded:</p>
+					
+					<ul>
+						<li><strong>key</strong> - API key created via the Shopit admin.</li>
+						<li><strong>type</strong> - The type of product lookup to perform. This can be either <code>brand</code>, <code>tag</code>, <code>keyword</code> or <code>category</code>. If this is not set, 'keyword' is used by default.</li>
+						<li><strong>query</strong> - The keywords or phrase to lookup e.g. "optimus prime transformer". Must be url encoded.</li>
+						<li><strong>limit</strong> - Total number of products to return. If not set, defaults to <code>10</code>. Maximum of 100 results returned.</li>
+						<li><strong>size</strong> - Width/height of the product image. If this is not set, it will default to Shopit's config setting.</li>
+					</ul>
+					
+<pre>http://my-shopit-website.com/webservices/products?key=api-key-obtained-from-shopit >>
+	&type=brand&query=optimus%20prime%20transformer&limit=10&size=150</pre>
+					
+				</article>
+
+				
+				<article>
+									
+					<h2><span>Payment Gateways</span></h2>
+					
+						<p>Below are details of actions that need taking in order for compatible gateways to perform correctly.</p>
+						
+						<p>Payment gateway settings (encryption keys, account numbers, etc) must be entered within <code>store/config/payment_settings.php</code>.</p>
+					
+					<h3>Barclaycard</h3>
+					
+						<p>The following URLs need adding to the server to server request in the ePDQ admin (replace {domain} with the store's URL).</p>
+					
+						<p><img alt="" src="images/epdq.png"></p>
+					
+						<p>All other settings for this gateway can be found in the stores config.php file.</p>
+					
+					<h4>Test Card Numbers</h4>
+					
+						<ul>
+							<li>VISA - 4111 1111 1111 1111</li>
+							<li>Visa 3-D Secure - 4000 0000 0000 0002</li>
+							<li>MasterCard - 5399 9999 9999 9999</li>
+							<li>VISA - 4111113333333333 (Declined)</li>
+							<li>VISA - 4111116666666666 (Exception)</li>
+						</ul>
+					
+					<h4>Test Interface</h4>
+					
+						<p><a href="https://mdepayments.epdq.co.uk/ncol/test/backoffice" target="_blank">https://mdepayments.epdq.co.uk/ncol/test/backoffice</a></p>
+					
+					<h4>Error Codes</h4>
+					
+						<p>The error messages on this page explain how to resolve errors displayed on the ePDQ payment screen.</p>
+					
+						<ul>
+							<li><strong>Incorrect parameter entered</strong> - You have not yet entered your PSPID in the VirtueMart payment method settings.</li>
+							<li><strong>unknown order/0/r</strong> - You have not yet entered the 'URL of the merchant page containing the payment form' setting in your ePDQ control panel. </li>
+							<li><strong>unknown order/1/r</strong> - The 'URL of the merchant page containing the payment form' setting entered in your ePDQ control panel does not match the actual URL used by visitors to access the final page of your checkout.</li>
+							<li><strong>unknown order/0/s</strong> - You have not yet entered the SHA-IN passphrase in the VirtueMart payment method settings. </li>
+							<li><strong>unknown order/1/s</strong> - The SHA-IN passphrase entered in the VirtueMart payment method settings does not match the SHA-IN passphrase configured in your ePDQ account.</li>
+							<li><strong>No order number received</strong> (on return to the merchant website) - For the ePDQ Control Panel setting on the 'Feedbacks' Tab: 'I would like to receive transaction feedback parameters on the redirection URLs': Select 'Yes' (Checked).</li>
+						</ul>
+					
+					<h3>WorldPay</h3>
+					
+						<p>Below is the default configuration (note the checkboxes). The payment response URL can be found in the Shopit admin.</p>
+					
+						<p><img alt="" src="images/WorldPay_Settings.png"></p>
+					
+						<p>The default payment response url should be <code>&lt;wpdisplay item="MC_callback"&gt;</code>.</p>
+					
+					<h4>Test Card Numbers</h4>
+					
+						<ul>
+							<li>Maestro - 6759649826438453</li>
+							<li>Mastercard - 5555555555554444</li>
+							<li>Visa - 4444333322221111</li>
+							<li><a href="http://www.worldpay.com/support/kb/bg/testandgolive/tgl5103.html" target="_blank">http://www.worldpay.com/support/kb/bg/testandgolive/tgl5103.html</a></li>
+						</ul>
+					
+					<h4>Resources</h4>
+						
+						<ul>
+							<li>Card Logos - <a href="http://www.worldpay.com/support/bg/index.php?page=start&sub=website&subsub=logosdetails&c=WW" target="_blank">http://www.worldpay.com/support/bg/index.php?page=start&amp;sub=website&amp;subsub=logosdetails&amp;c=WW</a></li>
+							<li>Worldpay integration guides - <a href="http://www.worldpay.com/support/kb/bg/htmlredirect/rhtml.html" target="_blank">http://www.worldpay.com/support/kb/bg/htmlredirect/rhtml.html</a></li>
+						</ul>
+						
+					<h3>PayPal</h3>
+					
+						<p>The PDT settings must be configured via PayPal's web interface. These settings can be found within the <strong>profile</strong> section on PayPal.</p>
+						
+						<h4>PDT Settings &amp; Token</h4>
+						
+						<p>Below is an example of a default PDT configuration.</p>
+
+						<p><img alt="PayPal PDT" src="images/paypal-pdt.png"></p>
+						
+						<h4>Instant Payment Notification (IPN)</h4>
+						
+						<p>As of Shopit 3.1.10, the IPN setting is set <strong>automatically</strong> and no longer requires configuring within PayPal.</p>
+					
+				</article>
+									
+					
+				</div>
+			</div>
+	</div>
+					
+	<script type="text/javascript">
+	$(document).ready(function(){
+	
+		//$('pre').addClass('prettyprint');
+	
+		//Create the table of contents - this is taken from chart.js
+		var $nav = $("nav dl");
+		
+		$("article").each(function(){
+		
+			var $type = $('nav').attr('class');
+		
+			var $el = $(this);
+			var $h2 = $el.find("h2 span");
+			var sectionTitle = $h2.html();
+			var articleId = camelCase($h2.html());
+			$h2.attr("id", articleId);
+			var $dt = $("<dt><a class=\"" + $type + "\" href=\"#" + camelCase(sectionTitle) + "\">" + sectionTitle + "</a></dt>");
+			
+			$dt.find("a.desktop").on("click",function(e){
+				e.preventDefault();
+				$('html,body').animate({scrollTop: $h2.offset().top},400);
+			});
+			
+			$nav.append($dt);
+			
+			var $subtitles = $el.find("h3");
+			
+			$subtitles.each(function(){
+				var $h3 = $(this);
+				var title = $h3.text();
+				var newID = articleId + "-" +camelCase(title);
+				$h3.attr("id", newID);
+				var $dd = $("<dd><a class=\"" + $type + "\" href=\"#" +newID + "\">" + title + "</a></dd>");
+				
+				$dd.find("a.desktop").on("click",function(e){
+					e.preventDefault();
+					$('html,body').animate({scrollTop: $h3.offset().top},400);
+				})
+				$nav.append($dd);
+				
+			});
+			
+			var $articles = $el.find("article");
+			
+		});
+		
+		//Hide or show the menu for mobile
+		$("nav.mobile").click(function(){
+			if ($(this).height() == 20) {
+				$(this).css('height', 'auto');
+			} else {
+				$(this).css('height', '20px');
+			}
+		});
+				
+		function camelCase(str){			
+			var splitString = str.split(" ");
+			
+			var returnedCamel = splitString[0].toLowerCase();
+			
+			for (var i=1; i<splitString.length; i++){
+				returnedCamel += splitString[i].charAt(0).toUpperCase() + splitString[i].substring(1).toLowerCase();
+			}
+			
+			return returnedCamel;
+			
+		}
+
+		//Function to show line numbers
+		(function() {
+		    var pre = document.getElementsByTagName('pre'),
+		        pl = pre.length;
+		    for (var i = 0; i < pl; i++) {
+		        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+		        var num = pre[i].innerHTML.split(/\n/).length;
+		        for (var j = 0; j < num; j++) {
+		            var line_num = pre[i].getElementsByTagName('span')[0];
+		            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+		        }
+		    }
+		})();
+			
+	});
+	</script>
+
+	</body>
+</html>

@@ -1,0 +1,32 @@
+/* preview style examples */
+#markitup_preview {
+	background-color: white;
+	font-size: 130%;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	color: black;
+	line-height: 150%;
+}
+
+#markitup_preview h1,h2,h3 {
+	color: black;
+	background: none;
+	margin: 0;
+	padding: 0 0 15px 0;
+	font-weight: bold;
+}
+
+#markitup_preview h1 {
+	font-size: 1.6em;
+}
+
+#markitup_preview h2 {
+	font-size: 1.2em;
+}
+
+#markitup_preview h3 {
+	font-size: 1em;
+}
+
+#markitup_preview p {
+	padding-bottom: 15px;
+}

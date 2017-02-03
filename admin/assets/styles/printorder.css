@@ -1,0 +1,251 @@
+@media print {
+	#window {
+		display: none;
+	}
+	
+	body {
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+		color: black;
+		margin: 0;
+		background-color: #ebebeb;
+	}
+	
+	#printnote {
+		margin: 0 auto;
+		background-color: white;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		position: relative;
+	}
+
+	.printnote {
+		margin: 0 auto;
+		background-color: white;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		page-break-after: always;
+		position: relative;
+	}
+	
+	#instructions {
+		border-top: 3px dashed #ccc;
+		margin-top: 0.75cm;
+		padding-top: 0.25cm;
+	}
+	
+	#instructions p {
+		color: black;
+	}
+	
+	h1 {
+		font-size: 16pt;
+		margin-bottom: 1em;
+	}
+	
+	h2 {
+		font-size: 14pt;
+		margin-bottom: 1em;
+	}
+	
+	h3 {
+		font-size: 12pt;
+		margin-bottom: 1em;
+	}
+	
+	p {
+		color: #555;
+		font-size: 9pt;
+		margin-bottom: 0;
+	}
+	
+	strong {
+		color: black;
+	}
+	
+	table {
+		width: 100%;
+		font-size: 9pt;
+		margin-bottom: 16px;
+	}
+	
+	table th {
+		text-align: left;
+		padding-bottom: 8px;
+	}
+	
+	table td {
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+	
+	.product td {
+		border-bottom: 1px solid #ccc;
+		vertical-align: top;
+	}
+	
+	hr {
+		color: #555;
+		border: none;
+		height: 1px;
+		background-color: #999;
+		margin: 0;
+	}
+	
+	.lightgrey {
+		color: #666;
+	}
+
+	#vat_inclusive,
+	.vat_inclusive {
+		display: none;
+	}
+
+}
+
+@media screen {
+	body {
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+		color: black;
+		background-color: #ebebeb;
+		margin: 0;
+		padding: 0;
+	}
+
+	#window {
+		width: 100%;
+		height: 26px;
+		padding: 7px 0px;
+		margin: 0 auto;
+		background-color: #2e2b28;
+		-webkit-border-bottom-left-radius: 5px;
+		-webkit-border-botton-right-radius: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-moz-border-radius-bottomright: 5px;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;	
+		line-height: 130%;
+		position: fixed;
+		top: 0px;
+		z-index: 999999;
+	}
+	
+	#window_options {
+		color: white;
+		font-size: 13px;
+		width: 300px;
+		float: left;
+		margin-left: 20px;
+		line-height: 200%;
+	}
+
+	.button {
+		padding: 5px 5px 3px 5px;
+		font-family: "Calibri","Helvetica Neue",Helvetica,Arial,sans-serif;
+		font-weight: bold;
+		font-size: 12px;
+		color: #2e2b28;
+		margin: -3px 10px 0 0;
+		background-color: #ebebeb;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		text-transform: uppercase;
+		text-decoration: none;
+		cursor: pointer;
+		float: right;
+	}
+	
+	.button:active {
+		margin-top: -2px;
+	}
+	
+	#printnote,
+	.printnote {
+		width: 19.5cm;
+		height: 28.7cm;
+		margin: 50px auto;
+		background-color: white;
+		padding: 0.5cm 0.75cm;
+		-webkit-box-shadow: 5px 5px 5px #999;
+		-moz-box-shadow: 5px 5px 5px #999;
+		box-shadow: 5px 5px 5px #999;
+		position: relative;
+	}
+	
+	#instructions {
+		border-top: 3px dashed #ccc;
+		margin-top: 0.75cm;
+		padding-top: 0.25cm;
+	}
+	
+	#instructions p {
+		color: black;
+	}
+	
+	h1 {
+		font-size: 16pt;
+		margin-bottom: 1em;
+	}
+	
+	h2 {
+		font-size: 14pt;
+		margin-bottom: 1em;
+	}
+	
+	h3 {
+		font-size: 12pt;
+		margin-bottom: 1em;
+	}
+	
+	p {
+		color: #555;
+		font-size: 9pt;
+		margin-bottom: 0;
+	}
+	
+	strong {
+		color: black;
+	}
+	
+	table {
+		width: 100%;
+		font-size: 9pt;
+		margin-bottom: 16px;
+	}
+	
+	table th {
+		text-align: left;
+		padding-bottom: 8px;
+	}
+	
+	table td {
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+	
+	.product td {
+		border-bottom: 1px solid #ccc;
+		vertical-align: top;
+	}
+	
+	hr {
+		color: #555;
+		border: none;
+		height: 1px;
+		background-color: #999;
+		margin: 0;
+	}
+	
+	.lightgrey {
+		color: #666;
+	}
+
+	#vat_inclusive,
+	.vat_inclusive {
+		display: none;
+	}
+	
+	a {
+		color: #008cba;
+	}
+
+}
